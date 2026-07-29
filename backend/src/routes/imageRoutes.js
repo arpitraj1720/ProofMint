@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const controller = require("../controllers/imageController");
+const upload = require("../config/multer");
 
-console.log(controller);
+const { createImage } = require("../controllers/imageController");
 
-router.post("/", controller.createImage);
+
+router.post("/", upload.single("image"), createImage);
 
 module.exports = router;
