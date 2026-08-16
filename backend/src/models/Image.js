@@ -46,6 +46,11 @@ const imageSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+
+  txHash: {
+    type: String,
+  },
+  
 });
 
 const Image = mongoose.model("Image", imageSchema);

@@ -2,7 +2,31 @@ const Image = require("../models/Image");
 
 const crypto = require("crypto");
 
+const cloudinary = require("../config/cloudinary");
 
+const streamifier = require("streamifier");
+
+const { storeHashOnBlockchain } = require("../services/blockchainService");
+
+const uploadToCloudinary = (buffer) => {
+    return new Promise((resolve, reject) => {
+
+        const stream = cloudinary.uploader.upload_stream(
+            (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            }
+        );
+
+        streamifier
+            .createReadStream(buffer)
+            .pipe(stream);
+
+    });
+};
 const createImage = async (req, res) => {
     try{
         const hash = crypto
@@ -16,10 +40,14 @@ const createImage = async (req, res) => {
         
         if(existingImage){
             return res.status(409).json({
-            success:false,
-            message: "This image has already been uploaded."
+                success:false,
+                message: "This image has already been uploaded."
             });
         }
+        const cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+
+        const txHash = await storeHashOnBlockchain(hash);
+
         const image = new Image({
             hash,
             owner: req.body.owner,
@@ -27,16 +55,20 @@ const createImage = async (req, res) => {
             fileType: req.file.mimetype,
             fileSize: req.file.size,
 
-            imageUrl: "pending",
+            imageUrl: cloudinaryResult.secure_url,
+
+            txHash,
+
             aiLabel: "pending",
             aiConfidence: 0,
         });
-
         await image.save();
 
         return res.status(201).json({
             success: true,
-            message: "Image uploaded successfully."
+            message: "Image uploaded successfully.",
+            txHash
+
         });
     } catch (error) {
 
