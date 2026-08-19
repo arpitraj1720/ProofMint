@@ -67,8 +67,8 @@ const createImage = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: "Image uploaded successfully.",
+            imageHash: hash,
             txHash
-
         });
     } catch (error) {
 
