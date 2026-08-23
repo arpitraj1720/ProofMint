@@ -10,8 +10,10 @@ const { storeHashOnBlockchain } = require("../services/blockchainService");
 
 const uploadToCloudinary = (buffer) => {
     return new Promise((resolve, reject) => {
-
         const stream = cloudinary.uploader.upload_stream(
+            {
+                resource_type: "image",
+            },
             (error, result) => {
                 if (error) {
                     reject(error);
@@ -21,32 +23,46 @@ const uploadToCloudinary = (buffer) => {
             }
         );
 
-        streamifier
-            .createReadStream(buffer)
-            .pipe(stream);
-
+        streamifier.createReadStream(buffer).pipe(stream);
     });
 };
 const createImage = async (req, res) => {
-    try{
+    try {
         const hash = crypto
-        .createHash("sha256")
-        .update(req.file.buffer)
-        .digest("hex");
+            .createHash("sha256")
+            .update(req.file.buffer)
+            .digest("hex");
 
         const existingImage = await Image.findOne({
             hash,
         });
-        
-        if(existingImage){
+
+        if (existingImage) {
             return res.status(409).json({
-                success:false,
+                success: false,
                 message: "This image has already been uploaded."
             });
         }
-        const cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+        console.log("☁️ Starting Cloudinary upload...");
+
+        const uploadStart = Date.now();
+
+        const cloudinaryResult = await uploadToCloudinary(
+            req.file.buffer,
+            req.file.mimetype
+        );
+
+        console.log(
+            `✅ Cloudinary upload complete in ${Date.now() - uploadStart}ms`
+        );
+
+        console.log("☁️ Cloudinary URL:", cloudinaryResult.secure_url);
+
+        console.log("⛓️ Starting blockchain transaction...");
 
         const txHash = await storeHashOnBlockchain(hash);
+
+        console.log("✅ Blockchain transaction complete:", txHash);
 
         const image = new Image({
             hash,
@@ -82,6 +98,23 @@ const createImage = async (req, res) => {
 
 };
 
+const getImages = async (req, res) => {
+    try {
+        const images = await Image.find().sort({ uploadedAt: -1 });
+        return res.status(200).json({
+            success: true,
+            images
+        });
+    } catch (error) {
+        console.error("Error fetching images:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
+    }
+};
+
 module.exports = {
     createImage,
+    getImages,
 };
