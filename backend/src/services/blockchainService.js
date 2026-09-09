@@ -1,6 +1,11 @@
 const { ethers } = require("ethers");
 
-const contractArtifact = require("../../../blockchain/artifacts/contracts/ProofMint.sol/ProofMint.json");
+let contractArtifact;
+try {
+    contractArtifact = require("../contracts/ProofMint.json");
+} catch {
+    contractArtifact = require("../../../blockchain/artifacts/contracts/ProofMint.sol/ProofMint.json");
+}
 
 const provider = new ethers.JsonRpcProvider(
     process.env.BLOCKCHAIN_RPC_URL
