@@ -1164,8 +1164,10 @@ function AuthPage({
   // Initialize Google Identity Services (One-Tap / ID listener)
   useEffect(() => {
     const rawClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const clientId = rawClientId ? rawClientId.trim() : "";
-    if (!clientId || clientId.includes("your_google_oauth_client_id_here")) return;
+    const clientId = (rawClientId && !rawClientId.includes("your_google_oauth_client_id_here"))
+      ? rawClientId.trim()
+      : "407500780524-g42dtf7t9edf8n5p6b16so6eqos8hbvr.apps.googleusercontent.com";
+    if (!clientId) return;
 
     const initGsi = () => {
       if (typeof window === "undefined" || !window.google?.accounts?.id) return;
@@ -1211,9 +1213,11 @@ function AuthPage({
   const handleGoogleClick = () => {
     setError(null);
     const rawClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const clientId = rawClientId ? rawClientId.trim() : "";
+    const clientId = (rawClientId && !rawClientId.includes("your_google_oauth_client_id_here"))
+      ? rawClientId.trim()
+      : "407500780524-g42dtf7t9edf8n5p6b16so6eqos8hbvr.apps.googleusercontent.com";
 
-    if (!clientId || clientId.includes("your_google_oauth_client_id_here")) {
+    if (!clientId) {
       setError(
         "Google Client ID is not configured. Please set VITE_GOOGLE_CLIENT_ID in frontend/.env and GOOGLE_CLIENT_ID in backend/.env with your Google OAuth Client ID."
       );

@@ -67,7 +67,11 @@ export class ApiError extends Error {
 }
 
 export const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
+  (import.meta.env.VITE_API_BASE_URL && import.meta.env.VITE_API_BASE_URL.trim() !== "")
+    ? import.meta.env.VITE_API_BASE_URL
+    : import.meta.env.PROD
+      ? "https://proofmint-pwcy.onrender.com"
+      : "http://localhost:3001";
 
 const TOKEN_KEY = "proofmint_auth_token";
 
@@ -93,6 +97,16 @@ export function clearAuthToken(): void {
   } catch {
     // Local storage unavailable
   }
+}
+
+function getErrorMessage(err: unknown): string {
+  if (err instanceof Error) {
+    if (err.message === "Failed to fetch" || err.message.toLowerCase().includes("failed to fetch")) {
+      return "Unable to connect to backend server. If the backend is hosted on Render free tier, it may take 30–50 seconds to wake up from sleep. Please wait a moment and try again.";
+    }
+    return err.message;
+  }
+  return "Failed to connect to backend server.";
 }
 
 /**
@@ -128,9 +142,7 @@ export async function registerUser(
     if (err instanceof ApiError) {
       throw err;
     }
-    const message =
-      err instanceof Error ? err.message : "Failed to connect to backend server.";
-    throw new ApiError(message, 0);
+    throw new ApiError(getErrorMessage(err), 0);
   }
 }
 
@@ -171,9 +183,7 @@ export async function loginUser(
     if (err instanceof ApiError) {
       throw err;
     }
-    const message =
-      err instanceof Error ? err.message : "Failed to connect to backend server.";
-    throw new ApiError(message, 0);
+    throw new ApiError(getErrorMessage(err), 0);
   }
 }
 
@@ -217,9 +227,7 @@ export async function loginWithGoogle(
     if (err instanceof ApiError) {
       throw err;
     }
-    const message =
-      err instanceof Error ? err.message : "Failed to connect to backend server.";
-    throw new ApiError(message, 0);
+    throw new ApiError(getErrorMessage(err), 0);
   }
 }
 
@@ -257,9 +265,7 @@ export async function getMe(): Promise<{ success: boolean; user: User }> {
     if (err instanceof ApiError) {
       throw err;
     }
-    const message =
-      err instanceof Error ? err.message : "Failed to connect to backend server.";
-    throw new ApiError(message, 0);
+    throw new ApiError(getErrorMessage(err), 0);
   }
 }
 
@@ -302,9 +308,7 @@ export async function registerImage(file: File): Promise<RegisterResponse> {
     if (err instanceof ApiError) {
       throw err;
     }
-    const message =
-      err instanceof Error ? err.message : "Failed to connect to backend server.";
-    throw new ApiError(message, 0);
+    throw new ApiError(getErrorMessage(err), 0);
   }
 }
 
@@ -336,9 +340,7 @@ export async function verifyImage(file: File): Promise<VerifyResponse> {
     if (err instanceof ApiError) {
       throw err;
     }
-    const message =
-      err instanceof Error ? err.message : "Failed to connect to backend server.";
-    throw new ApiError(message, 0);
+    throw new ApiError(getErrorMessage(err), 0);
   }
 }
 
@@ -384,8 +386,6 @@ export async function getImages(): Promise<ImageRecord[]> {
     if (err instanceof ApiError) {
       throw err;
     }
-    const message =
-      err instanceof Error ? err.message : "Failed to connect to backend server.";
-    throw new ApiError(message, 0);
+    throw new ApiError(getErrorMessage(err), 0);
   }
 }
