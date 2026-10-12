@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import QRCode from "qrcode";
 import { formatDate, fmtBytes } from "../../utils/formatters";
 import { ProofMintLogo } from "../ProofMintLogo";
+import { DownloadIcon } from "../icons/Icons";
+import { downloadAsset } from "../../utils/download";
 
 export interface CertificateData {
   title?: string;
@@ -29,6 +31,7 @@ export function ProvenanceCertificateModal({
   const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
   const [copiedLink, setCopiedLink] = useState(false);
   const [copiedHash, setCopiedHash] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const certificateRef = useRef<HTMLDivElement>(null);
 
   const etherscanUrl = data.txHash
@@ -53,6 +56,16 @@ export function ProvenanceCertificateModal({
 
   if (!isOpen) return null;
 
+  const handleDownloadOriginal = async () => {
+    if (!data.imageUrl || downloading) return;
+    setDownloading(true);
+    try {
+      await downloadAsset(data.imageUrl, data.fileName || `proofmint-${data.hash.slice(0, 8)}.png`);
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   const handleCopyLink = () => {
     navigator.clipboard.writeText(etherscanUrl);
     setCopiedLink(true);
@@ -76,7 +89,7 @@ export function ProvenanceCertificateModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl relative my-8"
+        className="w-full max-w-2xl rounded-md overflow-hidden shadow-2xl relative my-8"
         style={{
           background: "linear-gradient(135deg, rgba(0, 242, 254, 0.3) 0%, rgba(247, 108, 108, 0.3) 50%, rgba(16, 185, 129, 0.3) 100%)",
           padding: "2px",
@@ -86,7 +99,7 @@ export function ProvenanceCertificateModal({
         <div
           ref={certificateRef}
           id="proofmint-certificate"
-          className="rounded-[22px] p-6 sm:p-10 relative overflow-hidden"
+          className="rounded-md p-6 sm:p-10 relative overflow-hidden"
           style={{ backgroundColor: "#1e2952", color: "#ffffff" }}
         >
           {/* Subtle Background Watermark Hologram */}
@@ -102,7 +115,7 @@ export function ProvenanceCertificateModal({
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 p-2 rounded-full hover:bg-white/10 text-[#A8D0E6] cursor-pointer z-20"
+            className="absolute top-5 right-5 p-2 rounded hover:bg-white/10 text-[#A8D0E6] cursor-pointer z-20"
           >
             ✕
           </button>
@@ -113,7 +126,7 @@ export function ProvenanceCertificateModal({
               <ProofMintLogo size={36} showWordmark={true} />
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-widest uppercase mb-2" style={{ backgroundColor: "rgba(16,185,129,0.15)", color: "#10B981" }}>
+            <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold tracking-widest uppercase mb-2" style={{ color: "#10B981" }}>
               <span>●</span>
               <span>Official Certificate of Digital Provenance</span>
             </div>
@@ -131,7 +144,7 @@ export function ProvenanceCertificateModal({
             {/* Image Preview with Holographic Stamp */}
             <div className="md:col-span-1 flex flex-col items-center">
               <div
-                className="w-full aspect-square rounded-2xl overflow-hidden relative border shadow-lg flex items-center justify-center"
+                className="w-full aspect-square rounded-md overflow-hidden relative border shadow-lg flex items-center justify-center"
                 style={{
                   backgroundColor: "#161d3b",
                   borderColor: "rgba(168,208,230,0.2)",
@@ -152,7 +165,7 @@ export function ProvenanceCertificateModal({
 
                 {/* Holographic Seal Stamp */}
                 <div
-                  className="absolute bottom-2 right-2 px-2.5 py-1 rounded-md text-[9px] font-mono font-bold uppercase tracking-wider shadow-lg flex items-center gap-1"
+                  className="absolute bottom-2 right-2 px-2.5 py-1 rounded text-[9px] font-mono font-bold uppercase tracking-wider shadow-lg flex items-center gap-1"
                   style={{
                     backgroundColor: "rgba(16, 185, 129, 0.9)",
                     color: "#ffffff",
@@ -175,7 +188,7 @@ export function ProvenanceCertificateModal({
 
             {/* Cryptographic Ledger Details */}
             <div className="md:col-span-2 flex flex-col justify-between space-y-3 font-mono text-xs">
-              <div className="p-3.5 rounded-2xl" style={{ backgroundColor: "rgba(22, 29, 59, 0.7)", border: "1px solid rgba(168,208,230,0.12)" }}>
+              <div className="p-3.5 rounded-md" style={{ backgroundColor: "rgba(22, 29, 59, 0.7)", border: "1px solid rgba(168,208,230,0.12)" }}>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-[10px] uppercase font-bold text-sky-300/60">
                     Deterministic SHA-256 Digest
@@ -192,7 +205,7 @@ export function ProvenanceCertificateModal({
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl" style={{ backgroundColor: "rgba(22, 29, 59, 0.7)", border: "1px solid rgba(168,208,230,0.12)" }}>
+              <div className="p-3.5 rounded-md" style={{ backgroundColor: "rgba(22, 29, 59, 0.7)", border: "1px solid rgba(168,208,230,0.12)" }}>
                 <span className="text-[10px] uppercase font-bold text-sky-300/60 block mb-1">
                   Sepolia Transaction Hash
                 </span>
@@ -211,13 +224,13 @@ export function ProvenanceCertificateModal({
               </div>
 
               <div className="grid grid-cols-2 gap-3 text-[11px]">
-                <div className="p-2.5 rounded-xl" style={{ backgroundColor: "rgba(22, 29, 59, 0.7)" }}>
+                <div className="p-2.5 rounded-md" style={{ backgroundColor: "rgba(22, 29, 59, 0.7)" }}>
                   <span className="text-[9px] uppercase text-sky-300/50 block">Registration Date</span>
                   <span className="font-semibold text-white">
                     {formatDate(data.uploadedAt || new Date().toISOString())}
                   </span>
                 </div>
-                <div className="p-2.5 rounded-xl" style={{ backgroundColor: "rgba(22, 29, 59, 0.7)" }}>
+                <div className="p-2.5 rounded-md" style={{ backgroundColor: "rgba(22, 29, 59, 0.7)" }}>
                   <span className="text-[9px] uppercase text-sky-300/50 block">Smart Contract</span>
                   <span className="font-semibold text-white">
                     {CONTRACT_ADDRESS.slice(0, 6)}…{CONTRACT_ADDRESS.slice(-4)}
@@ -229,14 +242,14 @@ export function ProvenanceCertificateModal({
 
           {/* QR Code Verification Strip */}
           <div
-            className="p-4 rounded-2xl flex flex-col sm:flex-row items-center gap-4 mb-6 relative z-10 border"
+            className="p-4 rounded-md flex flex-col sm:flex-row items-center gap-4 mb-6 relative z-10 border"
             style={{
               backgroundColor: "rgba(22, 29, 59, 0.9)",
               borderColor: "rgba(168,208,230,0.15)",
             }}
           >
             {qrCodeUrl && (
-              <div className="p-1.5 rounded-xl bg-white shadow-md flex-shrink-0">
+              <div className="p-1.5 rounded-md bg-white shadow-md flex-shrink-0">
                 <img
                   src={qrCodeUrl}
                   alt="Sepolia Etherscan QR Verification"
@@ -265,18 +278,34 @@ export function ProvenanceCertificateModal({
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-3 relative z-10">
+            {data.imageUrl && (
+              <button
+                onClick={handleDownloadOriginal}
+                disabled={downloading}
+                className="w-full sm:flex-1 py-3.5 px-4 rounded-md font-bold text-xs sm:text-sm transition-all hover:bg-emerald-500/20 active:scale-95 cursor-pointer border flex items-center justify-center gap-2"
+                style={{
+                  backgroundColor: "rgba(16, 185, 129, 0.15)",
+                  borderColor: "rgba(16, 185, 129, 0.35)",
+                  color: "#10B981",
+                }}
+              >
+                <DownloadIcon size={15} />
+                <span>{downloading ? "Downloading..." : "Download Original Media"}</span>
+              </button>
+            )}
+
             <button
               onClick={handlePrint}
-              className="w-full sm:flex-1 py-3.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-lg flex items-center justify-center gap-2"
+              className="w-full sm:flex-1 py-3.5 px-4 rounded-md font-bold text-xs sm:text-sm transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-lg flex items-center justify-center gap-2"
               style={{ backgroundColor: "#F76C6C", color: "white" }}
             >
               <span>🖨️</span>
-              <span>Download / Print Certificate</span>
+              <span>Print Certificate</span>
             </button>
 
             <button
               onClick={handleCopyLink}
-              className="w-full sm:flex-1 py-3.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all hover:bg-white/10 active:scale-95 cursor-pointer border flex items-center justify-center gap-2"
+              className="w-full sm:flex-1 py-3.5 px-4 rounded-md font-bold text-xs sm:text-sm transition-all hover:bg-white/10 active:scale-95 cursor-pointer border flex items-center justify-center gap-2"
               style={{
                 backgroundColor: "rgba(168,208,230,0.1)",
                 borderColor: "rgba(168,208,230,0.25)",
@@ -284,7 +313,7 @@ export function ProvenanceCertificateModal({
               }}
             >
               <span>{copiedLink ? "✓" : "🔗"}</span>
-              <span>{copiedLink ? "Link Copied!" : "Copy Verification Link"}</span>
+              <span>{copiedLink ? "Link Copied!" : "Copy Link"}</span>
             </button>
           </div>
         </div>

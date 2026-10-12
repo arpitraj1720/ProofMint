@@ -118,7 +118,7 @@ export function CryptographicVisualizer({
 
   return (
     <div
-      className="rounded-3xl p-6 sm:p-8 border relative overflow-hidden font-sans text-left shadow-2xl animate-fade-in-up"
+      className="rounded-md p-6 sm:p-8 border relative overflow-hidden font-sans text-left shadow-2xl animate-fade-in-up"
       style={{
         backgroundColor: "#1b2345",
         borderColor: "rgba(168,208,230,0.2)",
@@ -155,7 +155,7 @@ export function CryptographicVisualizer({
 
       {/* Streaming Hex Matrix Visualization */}
       <div
-        className="rounded-2xl p-4 mb-6 relative overflow-hidden font-mono text-xs border"
+        className="rounded-md p-4 mb-6 relative overflow-hidden font-mono text-xs border"
         style={{
           backgroundColor: "#0f162e",
           borderColor: "rgba(168,208,230,0.15)",
@@ -179,7 +179,7 @@ export function CryptographicVisualizer({
 
       {/* Real-time 64-character SHA-256 Digest Lock-in */}
       <div
-        className="rounded-2xl p-4 sm:p-5 mb-6 border relative"
+        className="rounded-md p-4 sm:p-5 mb-6 border relative"
         style={{
           backgroundColor: "rgba(36,48,94,0.7)",
           borderColor: displayChars.length === 64 ? "rgba(16,185,129,0.4)" : "rgba(247,108,108,0.3)",
@@ -198,7 +198,7 @@ export function CryptographicVisualizer({
         </div>
 
         {/* 64-character hash display with highlighted chunks */}
-        <div className="p-3 rounded-xl bg-black/30 border border-white/5 font-mono text-xs sm:text-sm text-emerald-400 break-all tracking-wider leading-relaxed">
+        <div className="p-3 rounded-md bg-black/30 border border-white/5 font-mono text-xs sm:text-sm text-emerald-400 break-all tracking-wider leading-relaxed">
           {displayChars ? (
             <>
               <span className="text-[#F8E9A1] font-bold">{displayChars.slice(0, 8)}</span>

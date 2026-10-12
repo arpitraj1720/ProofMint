@@ -32,7 +32,7 @@ export function ProfilePage({ setPage }: ProfilePageProps) {
       <div className="max-w-xl mx-auto animate-fade-in-up">
         {/* Profile Card */}
         <div
-          className="rounded-3xl p-8 shadow-2xl"
+          className="rounded-md p-8 shadow-2xl"
           style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.15)" }}
         >
           {/* Header */}
@@ -41,18 +41,18 @@ export function ProfilePage({ setPage }: ProfilePageProps) {
             style={{ borderColor: "rgba(168,208,230,0.15)" }}
           >
             <div
-              className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-black text-white shadow-md flex-shrink-0"
+              className="w-16 h-16 rounded-md flex items-center justify-center text-2xl font-black text-white shadow-md flex-shrink-0"
               style={{ backgroundColor: "#F76C6C" }}
             >
               {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
             </div>
             <div className="min-w-0">
-              <div
-                className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide mb-1.5"
-                style={{ backgroundColor: "rgba(248,233,161,0.2)", color: "#F8E9A1" }}
+              <p
+                className="text-[10px] font-bold uppercase tracking-wide mb-1"
+                style={{ color: "#F8E9A1" }}
               >
                 Active Member
-              </div>
+              </p>
               <h1 className="text-2xl font-extrabold text-white truncate">{user?.name}</h1>
               <p className="text-xs truncate" style={{ color: "rgba(168,208,230,0.7)" }}>
                 {user?.email}
@@ -63,7 +63,7 @@ export function ProfilePage({ setPage }: ProfilePageProps) {
           {/* User Information */}
           <div className="space-y-4 mb-8">
             <div
-              className="flex items-center justify-between p-4 rounded-xl"
+              className="flex items-center justify-between p-4 rounded-md"
               style={{ backgroundColor: "rgba(36,48,94,0.6)" }}
             >
               <div>
@@ -80,7 +80,7 @@ export function ProfilePage({ setPage }: ProfilePageProps) {
             </div>
 
             <div
-              className="flex items-center justify-between p-4 rounded-xl"
+              className="flex items-center justify-between p-4 rounded-md"
               style={{ backgroundColor: "rgba(36,48,94,0.6)" }}
             >
               <div>
@@ -95,7 +95,7 @@ export function ProfilePage({ setPage }: ProfilePageProps) {
             </div>
 
             <div
-              className="flex items-center justify-between p-4 rounded-xl"
+              className="flex items-center justify-between p-4 rounded-md"
               style={{ backgroundColor: "rgba(36,48,94,0.6)" }}
             >
               <div>
@@ -103,7 +103,7 @@ export function ProfilePage({ setPage }: ProfilePageProps) {
                   className="text-[10px] font-bold uppercase tracking-wider block"
                   style={{ color: "rgba(168,208,230,0.5)" }}
                 >
-                  Account Created
+                  Member Since
                 </span>
                 <span className="text-sm font-semibold text-white">
                   {formatDate(user?.createdAt)}
@@ -111,48 +111,68 @@ export function ProfilePage({ setPage }: ProfilePageProps) {
               </div>
             </div>
 
-            <div
-              className="flex items-center justify-between p-4 rounded-xl"
-              style={{ backgroundColor: "rgba(36,48,94,0.6)" }}
-            >
-              <div>
-                <span
-                  className="text-[10px] font-bold uppercase tracking-wider block"
-                  style={{ color: "rgba(168,208,230,0.5)" }}
-                >
-                  Total Registered Proofs
-                </span>
-                <span className="text-sm font-extrabold text-[#F8E9A1]">
-                  {registeredCount !== null ? registeredCount : (user?.registeredCount ?? 0)} proofs
-                  on Ethereum Sepolia
-                </span>
-              </div>
-              <button
-                onClick={() => setPage("dashboard")}
-                className="text-xs font-bold underline cursor-pointer"
-                style={{ color: "#A8D0E6" }}
+            {registeredCount !== null && (
+              <div
+                className="flex items-center justify-between p-4 rounded-md"
+                style={{ backgroundColor: "rgba(36,48,94,0.6)" }}
               >
-                View Proofs →
-              </button>
-            </div>
+                <div>
+                  <span
+                    className="text-[10px] font-bold uppercase tracking-wider block"
+                    style={{ color: "rgba(168,208,230,0.5)" }}
+                  >
+                    Registered Proofs
+                  </span>
+                  <span className="text-sm font-semibold text-white">
+                    {registeredCount} image{registeredCount !== 1 ? "s" : ""} on Sepolia
+                  </span>
+                </div>
+                <button
+                  onClick={() => setPage("dashboard")}
+                  className="text-xs font-bold underline"
+                  style={{ color: "#F76C6C" }}
+                >
+                  View Dashboard →
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col gap-3">
+          {/* Blockchain Credentials */}
+          <div
+            className="p-4 rounded-md mb-8 border"
+            style={{
+              backgroundColor: "rgba(36,48,94,0.4)",
+              borderColor: "rgba(168,208,230,0.12)",
+            }}
+          >
+            <span
+              className="text-[10px] font-bold uppercase tracking-wider block mb-1"
+              style={{ color: "#F8E9A1" }}
+            >
+              Cryptographic Credentials
+            </span>
+            <p className="text-xs leading-relaxed" style={{ color: "rgba(168,208,230,0.65)" }}>
+              Proofs registered from your account are verified with deterministic SHA-256 byte buffers and stored in the ProofMint Sepolia contract.
+            </p>
+          </div>
+
+          {/* Actions */}
+          <div className="flex flex-col sm:flex-row gap-3">
             <button
               onClick={() => setPage("dashboard")}
-              className="w-full py-3.5 rounded-xl font-bold text-sm transition-all hover:opacity-90 cursor-pointer text-center"
-              style={{ backgroundColor: "#A8D0E6", color: "#24305E" }}
+              className="flex-1 py-3.5 rounded-md font-bold text-sm transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-md"
+              style={{ backgroundColor: "#F76C6C", color: "white" }}
             >
-              Go to Proofs Dashboard
+              Go to Dashboard
             </button>
             <button
               onClick={handleLogout}
-              className="w-full py-3.5 rounded-xl font-bold text-sm transition-all hover:bg-red-500/20 cursor-pointer text-center border"
+              className="flex-1 py-3.5 rounded-md font-bold text-sm transition-all hover:bg-white/10 active:scale-95 cursor-pointer border"
               style={{
                 color: "#F76C6C",
-                backgroundColor: "rgba(247,108,108,0.1)",
                 borderColor: "rgba(247,108,108,0.3)",
+                backgroundColor: "rgba(247,108,108,0.06)",
               }}
             >
               Log Out

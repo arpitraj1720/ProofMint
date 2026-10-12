@@ -15,7 +15,7 @@ export function Toast({ msg, onClose }: ToastProps) {
   return (
     <div className="fixed bottom-6 right-6 z-50 animate-fade-in-up">
       <div
-        className="flex items-center gap-3 px-5 py-4 rounded-2xl shadow-2xl"
+        className="flex items-center gap-3 px-5 py-4 rounded-md shadow-2xl"
         style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.25)" }}
       >
         <CheckCircleIcon size={20} color="#F8E9A1" />

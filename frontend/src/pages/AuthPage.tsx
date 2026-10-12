@@ -195,7 +195,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
         {/* Notice from Landing CTA */}
         {notice && (
           <div
-            className="rounded-2xl p-4 mb-6 flex items-center gap-3"
+            className="rounded-md p-4 mb-6 flex items-center gap-3"
             style={{ backgroundColor: "rgba(248,233,161,0.15)", border: "1px solid rgba(248,233,161,0.3)" }}
           >
             <span className="text-lg">🔒</span>
@@ -207,7 +207,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
 
         {/* Main Card */}
         <div
-          className="rounded-3xl p-8 shadow-2xl"
+          className="rounded-md p-8 shadow-2xl"
           style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.15)" }}
         >
           {/* Header */}
@@ -227,7 +227,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
 
           {/* Mode Switcher */}
           <div
-            className="flex rounded-xl p-1 mb-6"
+            className="flex rounded-md p-1 mb-6"
             style={{ backgroundColor: "rgba(36,48,94,0.6)" }}
           >
             <button
@@ -236,7 +236,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
                 setMode("login");
                 setError(null);
               }}
-              className="flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer"
+              className="flex-1 py-2 text-xs font-bold rounded transition-all cursor-pointer"
               style={{
                 backgroundColor: mode === "login" ? "#F76C6C" : "transparent",
                 color: mode === "login" ? "white" : "rgba(168,208,230,0.6)",
@@ -250,7 +250,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
                 setMode("register");
                 setError(null);
               }}
-              className="flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer"
+              className="flex-1 py-2 text-xs font-bold rounded transition-all cursor-pointer"
               style={{
                 backgroundColor: mode === "register" ? "#F76C6C" : "transparent",
                 color: mode === "register" ? "white" : "rgba(168,208,230,0.6)",
@@ -263,7 +263,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
           {/* Error Message */}
           {error && (
             <div
-              className="rounded-xl p-3.5 mb-5 text-xs font-medium flex items-center gap-2.5 animate-fade-in-up"
+              className="rounded-md p-3.5 mb-5 text-xs font-medium flex items-center gap-2.5 animate-fade-in-up"
               style={{
                 backgroundColor: "rgba(247,108,108,0.15)",
                 border: "1px solid rgba(247,108,108,0.3)",
@@ -281,7 +281,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
               type="button"
               onClick={handleGoogleClick}
               disabled={loading}
-              className="w-full py-3.5 px-4 rounded-xl font-bold text-xs sm:text-sm transition-all hover:bg-white/10 active:scale-95 cursor-pointer shadow-md flex items-center justify-center gap-3 border"
+              className="w-full py-3.5 px-4 rounded-md font-bold text-xs sm:text-sm transition-all hover:bg-white/10 active:scale-95 cursor-pointer shadow-md flex items-center justify-center gap-3 border"
               style={{
                 backgroundColor: "rgba(36,48,94,0.8)",
                 borderColor: "rgba(168,208,230,0.25)",
@@ -321,7 +321,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
                   value={loginIdentifier}
                   onChange={(e) => setLoginIdentifier(e.target.value)}
                   placeholder="e.g. alice123 or you@example.com"
-                  className="w-full px-4 py-3 rounded-xl text-sm font-medium text-white focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-md text-sm font-medium text-white focus:outline-none transition-colors"
                   style={{
                     backgroundColor: "rgba(36,48,94,0.7)",
                     border: "1px solid rgba(168,208,230,0.2)",
@@ -343,7 +343,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="e.g. alice123"
-                    className="w-full px-4 py-3 rounded-xl text-sm font-medium text-white focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-md text-sm font-medium text-white focus:outline-none transition-colors"
                     style={{
                       backgroundColor: "rgba(36,48,94,0.7)",
                       border: "1px solid rgba(168,208,230,0.2)",
@@ -364,7 +364,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full px-4 py-3 rounded-xl text-sm font-medium text-white focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-md text-sm font-medium text-white focus:outline-none transition-colors"
                     style={{
                       backgroundColor: "rgba(36,48,94,0.7)",
                       border: "1px solid rgba(168,208,230,0.2)",
@@ -392,7 +392,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded-xl text-sm font-medium text-white focus:outline-none transition-colors pr-12"
+                  className="w-full px-4 py-3 rounded-md text-sm font-medium text-white focus:outline-none transition-colors pr-12"
                   style={{
                     backgroundColor: "rgba(36,48,94,0.7)",
                     border: "1px solid rgba(168,208,230,0.2)",
@@ -412,7 +412,7 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 rounded-xl font-bold text-sm transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-lg mt-2 flex items-center justify-center gap-2"
+              className="w-full py-4 rounded-md font-bold text-sm transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-lg mt-2 flex items-center justify-center gap-2"
               style={{
                 backgroundColor: "#F76C6C",
                 color: "white",

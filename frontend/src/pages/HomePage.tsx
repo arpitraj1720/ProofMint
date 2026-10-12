@@ -16,8 +16,8 @@ export function HomePage({ setPage, onStartRegister }: HomePageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in-up">
               <div
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-8"
-                style={{ backgroundColor: "rgba(36,48,94,0.12)", color: "#24305E" }}
+                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-8"
+                style={{ color: "#24305E" }}
               >
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: "#F76C6C" }} />
                 Live on Ethereum Sepolia Testnet
@@ -39,18 +39,18 @@ export function HomePage({ setPage, onStartRegister }: HomePageProps) {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={onStartRegister}
-                  className="px-8 py-4 rounded-xl font-bold text-base transition-all duration-200 hover:opacity-90 active:scale-95 shadow-xl cursor-pointer"
+                  className="px-8 py-4 rounded-md font-bold text-base transition-all duration-200 hover:opacity-90 active:scale-95 shadow-xl cursor-pointer"
                   style={{ backgroundColor: "#F76C6C", color: "white" }}
                 >
                   Register Image
                 </button>
                 <button
                   onClick={() => setPage("verify")}
-                  className="px-8 py-4 rounded-xl font-bold text-base transition-all duration-200 hover:bg-black/5 active:scale-95 cursor-pointer"
+                  className="px-8 py-4 rounded-md font-bold text-base transition-all duration-200 hover:bg-black/5 active:scale-95 cursor-pointer"
                   style={{
-                    backgroundColor: "rgba(36,48,94,0.1)",
+                    backgroundColor: "transparent",
                     color: "#24305E",
-                    border: "2px solid rgba(36,48,94,0.2)",
+                    border: "2px solid rgba(36,48,94,0.3)",
                   }}
                 >
                   Verify Image
@@ -87,10 +87,10 @@ export function HomePage({ setPage, onStartRegister }: HomePageProps) {
             ].map((f, i) => (
               <div
                 key={i}
-                className="rounded-2xl p-6 transition-all"
+                className="rounded-md p-6 transition-all"
                 style={{ backgroundColor: "rgba(36,48,94,0.5)", border: "1px solid rgba(168,208,230,0.15)" }}
               >
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-4 text-xs font-bold font-mono" style={{ backgroundColor: "#F76C6C", color: "white" }}>
+                <div className="w-8 h-8 rounded flex items-center justify-center mb-4 text-xs font-bold font-mono" style={{ backgroundColor: "#F76C6C", color: "white" }}>
                   0{i + 1}
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">{f.title}</h3>
@@ -121,7 +121,7 @@ export function HomePage({ setPage, onStartRegister }: HomePageProps) {
             ].map((s) => (
               <div
                 key={s.num}
-                className="rounded-2xl p-6 relative group transition-all duration-200"
+                className="rounded-md p-6 relative group transition-all duration-200"
                 style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.12)" }}
               >
                 <div className="text-5xl font-extrabold mb-4" style={{ color: "#F8E9A1", opacity: 0.8 }}>

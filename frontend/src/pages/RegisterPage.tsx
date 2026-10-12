@@ -112,12 +112,12 @@ export function RegisterPage({ setPage }: RegisterPageProps) {
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="mb-10 text-center">
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3"
-            style={{ backgroundColor: "rgba(247,108,108,0.15)", color: "#F76C6C" }}
+          <p
+            className="text-xs font-bold uppercase tracking-wider mb-2"
+            style={{ color: "#F76C6C" }}
           >
             On-Chain Image Registration
-          </div>
+          </p>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-white mb-3">
             Register an Image Proof
           </h1>
@@ -129,7 +129,7 @@ export function RegisterPage({ setPage }: RegisterPageProps) {
         {/* Error Alert */}
         {errorState && (
           <div
-            className="rounded-2xl p-5 mb-8 animate-fade-in-up flex items-start justify-between gap-4"
+            className="rounded-md p-5 mb-8 animate-fade-in-up flex items-start justify-between gap-4"
             style={{ backgroundColor: "rgba(247,108,108,0.15)", border: "1px solid rgba(247,108,108,0.3)" }}
           >
             <div className="flex items-start gap-3">
@@ -156,7 +156,7 @@ export function RegisterPage({ setPage }: RegisterPageProps) {
         {/* State 1: Success / Done */}
         {step === "done" && registeredData ? (
           <div
-            className="animate-fade-in-up rounded-3xl overflow-hidden shadow-2xl"
+            className="animate-fade-in-up rounded-md overflow-hidden shadow-2xl"
             style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.15)" }}
           >
             {registeredData.imageUrl && (
@@ -170,7 +170,7 @@ export function RegisterPage({ setPage }: RegisterPageProps) {
             <div className="p-8">
               <div className="text-center mb-8">
                 <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+                  className="w-16 h-16 rounded-md flex items-center justify-center mx-auto mb-4"
                   style={{ backgroundColor: "rgba(248,233,161,0.15)" }}
                 >
                   <CheckCircleIcon size={36} color="#F8E9A1" />
@@ -183,7 +183,7 @@ export function RegisterPage({ setPage }: RegisterPageProps) {
 
               {/* Details card */}
               <div
-                className="rounded-2xl p-6 mb-8 space-y-3"
+                className="rounded-md p-6 mb-8 space-y-3"
                 style={{ backgroundColor: "rgba(36,48,94,0.6)" }}
               >
                 <div className="flex justify-between items-center text-xs">
@@ -224,25 +224,25 @@ export function RegisterPage({ setPage }: RegisterPageProps) {
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={() => setIsCertOpen(true)}
-                  className="flex-1 py-4 rounded-xl font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg cursor-pointer flex items-center justify-center gap-2"
+                  className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg cursor-pointer flex items-center justify-center gap-2"
                   style={{
                     background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
                     color: "white",
                   }}
                 >
-                  
+                  <span>📜</span>
                   <span>View Holographic Certificate</span>
                 </button>
                 <button
                   onClick={() => setPage("dashboard")}
-                  className="flex-1 py-4 rounded-xl font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-md cursor-pointer"
+                  className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-md cursor-pointer"
                   style={{ backgroundColor: "#F76C6C", color: "white" }}
                 >
                   View in Dashboard
                 </button>
                 <button
                   onClick={handleReset}
-                  className="flex-1 py-4 rounded-xl font-bold text-sm transition-all hover:bg-white/10 cursor-pointer"
+                  className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:bg-white/10 cursor-pointer"
                   style={{
                     backgroundColor: "rgba(168,208,230,0.1)",
                     color: "#A8D0E6",
@@ -263,7 +263,7 @@ export function RegisterPage({ setPage }: RegisterPageProps) {
               statusText="Executing smart contract storeHash() on Ethereum Sepolia"
             />
             <div
-              className="rounded-2xl p-6 border text-center shadow-xl"
+              className="rounded-md p-6 border text-center shadow-xl"
               style={{ backgroundColor: "#374785", borderColor: "rgba(168,208,230,0.15)" }}
             >
               <div className="max-w-md mx-auto">
@@ -275,7 +275,7 @@ export function RegisterPage({ setPage }: RegisterPageProps) {
           /* ── File Ready to Register ── */
           <div className="animate-fade-in-up">
             <div
-              className="rounded-3xl overflow-hidden mb-6 shadow-xl"
+              className="rounded-md overflow-hidden mb-6 shadow-xl"
               style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.15)" }}
             >
               <div
@@ -296,7 +296,7 @@ export function RegisterPage({ setPage }: RegisterPageProps) {
                 </div>
                 <button
                   onClick={handleReset}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer"
+                  className="px-3 py-1.5 rounded text-xs font-semibold cursor-pointer"
                   style={{ color: "rgba(247,108,108,0.9)", backgroundColor: "rgba(247,108,108,0.1)" }}
                 >
                   Change File
@@ -306,7 +306,7 @@ export function RegisterPage({ setPage }: RegisterPageProps) {
 
             <button
               onClick={handleRegister}
-              className="w-full py-4 rounded-xl font-bold text-base transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-xl"
+              className="w-full py-4 rounded-md font-bold text-base transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-xl"
               style={{ backgroundColor: "#F76C6C", color: "white" }}
             >
               Confirm & Register on Blockchain

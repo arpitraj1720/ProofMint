@@ -71,12 +71,12 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="mb-10 text-center">
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3"
-            style={{ backgroundColor: "rgba(168,208,230,0.12)", color: "#A8D0E6" }}
+          <p
+            className="text-xs font-bold uppercase tracking-wider mb-2"
+            style={{ color: "#A8D0E6" }}
           >
             Public Image Verification
-          </div>
+          </p>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-white mb-3">
             Verify an Image
           </h1>
@@ -88,7 +88,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
         {/* Error Alert */}
         {errorMsg && (
           <div
-            className="rounded-2xl p-4 mb-8 flex items-center justify-between animate-fade-in-up"
+            className="rounded-md p-4 mb-8 flex items-center justify-between animate-fade-in-up"
             style={{ backgroundColor: "rgba(247,108,108,0.15)", border: "1px solid rgba(247,108,108,0.3)" }}
           >
             <div className="flex items-center gap-3">
@@ -108,7 +108,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
         {/* State 1: Verification Result */}
         {step === "done" && verifyResult ? (
           <div
-            className="animate-fade-in-up rounded-3xl overflow-hidden shadow-2xl"
+            className="animate-fade-in-up rounded-md overflow-hidden shadow-2xl"
             style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.15)" }}
           >
             {preview && (
@@ -130,7 +130,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                 <div>
                   <div className="text-center mb-8">
                     <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+                      className="w-16 h-16 rounded-md flex items-center justify-center mx-auto mb-4"
                       style={{ backgroundColor: "rgba(248,233,161,0.15)" }}
                     >
                       <CheckCircleIcon size={36} color="#F8E9A1" />
@@ -145,14 +145,14 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
 
                   {/* Public Proof Info Card (Strictly without user email) */}
                   <div
-                    className="rounded-2xl p-6 mb-8 space-y-4"
+                    className="rounded-md p-6 mb-8 space-y-4"
                     style={{ backgroundColor: "rgba(36,48,94,0.6)", border: "1px solid rgba(168,208,230,0.1)" }}
                   >
                     <div className="flex items-center justify-between text-sm">
                       <span style={{ color: "rgba(168,208,230,0.6)" }}>Status</span>
                       <span
-                        className="font-bold px-2.5 py-1 rounded text-xs"
-                        style={{ backgroundColor: "rgba(248,233,161,0.2)", color: "#F8E9A1" }}
+                        className="font-bold text-xs"
+                        style={{ color: "#F8E9A1" }}
                       >
                         AUTHENTIC & CONFIRMED
                       </span>
@@ -204,7 +204,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                           </button>
                         </div>
                         <p
-                          className="font-mono text-xs text-white break-all p-2.5 rounded-lg"
+                          className="font-mono text-xs text-white break-all p-2.5 rounded"
                           style={{ backgroundColor: "rgba(255,255,255,0.04)" }}
                         >
                           {verifyResult.imageHash}
@@ -216,18 +216,18 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                   <div className="flex flex-col sm:flex-row gap-4">
                     <button
                       onClick={() => setIsCertOpen(true)}
-                      className="flex-1 py-4 rounded-xl font-bold text-sm transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-lg flex items-center justify-center gap-2"
+                      className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-lg flex items-center justify-center gap-2"
                       style={{
                         background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
                         color: "white",
                       }}
                     >
-
+                      <span>📜</span>
                       <span>View Holographic Certificate</span>
                     </button>
                     <button
                       onClick={handleReset}
-                      className="flex-1 py-4 rounded-xl font-bold text-sm transition-all hover:bg-white/10 active:scale-95 cursor-pointer"
+                      className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:bg-white/10 active:scale-95 cursor-pointer"
                       style={{
                         backgroundColor: "rgba(168,208,230,0.1)",
                         color: "#A8D0E6",
@@ -243,7 +243,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                 <div>
                   <div className="text-center mb-8">
                     <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+                      className="w-16 h-16 rounded-md flex items-center justify-center mx-auto mb-4"
                       style={{ backgroundColor: "rgba(247,108,108,0.15)" }}
                     >
                       <XCircleIcon size={36} />
@@ -258,7 +258,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
 
                   {/* Informational Clarification Banner */}
                   <div
-                    className="rounded-2xl p-5 mb-6 text-sm"
+                    className="rounded-md p-5 mb-6 text-sm"
                     style={{ backgroundColor: "rgba(36,48,94,0.6)", border: "1px solid rgba(168,208,230,0.15)" }}
                   >
                     <p className="font-medium mb-3" style={{ color: "#F8E9A1" }}>
@@ -270,7 +270,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                   </div>
 
                   {verifyResult.imageHash && (
-                    <div className="rounded-xl p-4 mb-8" style={{ backgroundColor: "rgba(36,48,94,0.6)" }}>
+                    <div className="rounded-md p-4 mb-8" style={{ backgroundColor: "rgba(36,48,94,0.6)" }}>
                       <div className="flex items-center justify-between mb-1">
                         <span
                           className="text-xs uppercase font-bold tracking-wider"
@@ -293,14 +293,14 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                   <div className="flex flex-col sm:flex-row gap-4">
                     <button
                       onClick={() => setPage("register")}
-                      className="flex-1 py-4 rounded-xl font-bold text-sm transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-md"
+                      className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-md"
                       style={{ backgroundColor: "#F76C6C", color: "white" }}
                     >
                       Register This Image
                     </button>
                     <button
                       onClick={handleReset}
-                      className="flex-1 py-4 rounded-xl font-bold text-sm transition-all hover:bg-white/10 cursor-pointer"
+                      className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:bg-white/10 cursor-pointer"
                       style={{
                         backgroundColor: "rgba(168,208,230,0.1)",
                         color: "#A8D0E6",
@@ -325,7 +325,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
           /* ── File Selected / Ready to Verify ── */
           <div className="animate-fade-in-up">
             <div
-              className="rounded-3xl overflow-hidden mb-6 shadow-xl"
+              className="rounded-md overflow-hidden mb-6 shadow-xl"
               style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.15)" }}
             >
               <div
@@ -346,7 +346,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                 </div>
                 <button
                   onClick={handleReset}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer"
+                  className="px-3 py-1.5 rounded text-xs font-semibold cursor-pointer"
                   style={{ color: "rgba(247,108,108,0.9)", backgroundColor: "rgba(247,108,108,0.1)" }}
                 >
                   Change Image
@@ -356,7 +356,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
 
             <button
               onClick={handleVerify}
-              className="w-full py-4 rounded-xl font-bold text-base transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-xl"
+              className="w-full py-4 rounded-md font-bold text-base transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-xl"
               style={{ backgroundColor: "#F76C6C", color: "white" }}
             >
               Verify On-Chain Now

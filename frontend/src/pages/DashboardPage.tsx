@@ -6,7 +6,8 @@ import { formatDate, fmtBytes } from "../utils/formatters";
 import { StatCard } from "../components/common/StatCard";
 import { StatusBadge } from "../components/common/StatusBadge";
 import { ImageCard } from "../components/image/ImageCard";
-import { UploadIcon, XCircleIcon } from "../components/icons/Icons";
+import { UploadIcon, XCircleIcon, DownloadIcon } from "../components/icons/Icons";
+import { downloadAsset } from "../utils/download";
 
 export interface DashboardPageProps {
   setPage: (p: Page) => void;
@@ -60,12 +61,12 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <div
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3"
-                style={{ backgroundColor: "rgba(247,108,108,0.15)", color: "#F76C6C" }}
+              <p
+                className="text-xs font-bold uppercase tracking-wider mb-2"
+                style={{ color: "#F76C6C" }}
               >
                 Authenticated Proof Dashboard
-              </div>
+              </p>
               <h1 className="text-3xl lg:text-4xl font-extrabold text-white">
                 Welcome, {user?.name || "Member"}
               </h1>
@@ -77,14 +78,14 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setPage("register")}
-                className="px-6 py-3.5 rounded-xl font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg cursor-pointer"
+                className="px-6 py-3.5 rounded-md font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg cursor-pointer"
                 style={{ backgroundColor: "#F76C6C", color: "white" }}
               >
                 + Register New Image
               </button>
               <button
                 onClick={() => setPage("profile")}
-                className="px-4 py-3.5 rounded-xl text-sm font-semibold transition-all hover:bg-white/10 cursor-pointer"
+                className="px-4 py-3.5 rounded-md text-sm font-semibold transition-all hover:bg-white/10 cursor-pointer"
                 style={{
                   color: "#A8D0E6",
                   backgroundColor: "rgba(168,208,230,0.1)",
@@ -133,7 +134,7 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
               placeholder="Search by file name or hash..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="px-3.5 py-2 rounded-xl text-xs font-medium focus:outline-none border"
+              className="px-3.5 py-2 rounded-md text-xs font-medium focus:outline-none border"
               style={{
                 backgroundColor: "white",
                 borderColor: "rgba(55,71,133,0.2)",
@@ -144,14 +145,14 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
 
             {/* Grid/List Toggle */}
             <div
-              className="flex gap-1 p-1 rounded-xl bg-white border"
+              className="flex gap-1 p-1 rounded-md bg-white border"
               style={{ borderColor: "rgba(55,71,133,0.15)" }}
             >
               {(["grid", "list"] as const).map((v) => (
                 <button
                   key={v}
                   onClick={() => setView(v)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer"
+                  className="px-3 py-1.5 rounded text-xs font-bold transition-all cursor-pointer"
                   style={{
                     backgroundColor: view === v ? "#24305E" : "transparent",
                     color: view === v ? "white" : "#24305E",
@@ -167,7 +168,7 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
         {/* Error Alert */}
         {error && (
           <div
-            className="rounded-2xl p-5 mb-8 flex items-center justify-between shadow-sm"
+            className="rounded-md p-5 mb-8 flex items-center justify-between shadow-sm"
             style={{ backgroundColor: "rgba(247,108,108,0.1)", border: "1px solid rgba(247,108,108,0.25)" }}
           >
             <div className="flex items-center gap-3">
@@ -178,7 +179,7 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
             </div>
             <button
               onClick={fetchProofs}
-              className="px-3.5 py-1.5 rounded-lg text-xs font-bold text-white cursor-pointer"
+              className="px-3.5 py-1.5 rounded text-xs font-bold text-white cursor-pointer"
               style={{ backgroundColor: "#24305E" }}
             >
               Retry
@@ -192,10 +193,10 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
             {[1, 2, 3].map((n) => (
               <div
                 key={n}
-                className="rounded-2xl p-4 animate-pulse"
+                className="rounded-md p-4 animate-pulse"
                 style={{ backgroundColor: "#374785" }}
               >
-                <div className="aspect-video rounded-xl mb-4" style={{ backgroundColor: "#24305E" }} />
+                <div className="aspect-video rounded mb-4" style={{ backgroundColor: "#24305E" }} />
                 <div className="h-4 rounded w-3/4 mb-2" style={{ backgroundColor: "rgba(168,208,230,0.2)" }} />
                 <div className="h-3 rounded w-1/2" style={{ backgroundColor: "rgba(168,208,230,0.1)" }} />
               </div>
@@ -204,11 +205,11 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
         ) : images.length === 0 ? (
           /* Empty State */
           <div
-            className="rounded-3xl p-14 text-center my-6"
+            className="rounded-md p-14 text-center my-6"
             style={{ backgroundColor: "#24305E", border: "1px dashed rgba(168,208,230,0.25)" }}
           >
             <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+              className="w-16 h-16 rounded-md flex items-center justify-center mx-auto mb-4"
               style={{ backgroundColor: "rgba(168,208,230,0.1)" }}
             >
               <UploadIcon />
@@ -219,7 +220,7 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
             </p>
             <button
               onClick={() => setPage("register")}
-              className="px-7 py-3.5 rounded-xl font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg cursor-pointer"
+              className="px-7 py-3.5 rounded-md font-bold text-sm transition-all hover:opacity-90 active:scale-95 shadow-lg cursor-pointer"
               style={{ backgroundColor: "#F76C6C", color: "white" }}
             >
               + Register Your First Image
@@ -240,7 +241,7 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
         ) : (
           /* List View */
           <div
-            className="rounded-2xl overflow-hidden bg-white shadow-sm border"
+            className="rounded-md overflow-hidden bg-white shadow-sm border"
             style={{ borderColor: "rgba(55,71,133,0.15)" }}
           >
             {filteredImages.map((img, i) => (
@@ -251,7 +252,7 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
                   borderBottom: i < filteredImages.length - 1 ? "1px solid rgba(55,71,133,0.08)" : "none",
                 }}
               >
-                <div className="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 bg-slate-100">
+                <div className="w-14 h-14 rounded overflow-hidden flex-shrink-0 bg-slate-100">
                   <img src={img.imageUrl} alt={img.fileName || "Proof"} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -271,17 +272,35 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
                     {img.hash ? `${img.hash.slice(0, 8)}…${img.hash.slice(-6)}` : ""}
                   </span>
                 </div>
-                {img.txHash && (
-                  <a
-                    href={`https://sepolia.etherscan.io/tx/${img.txHash}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-xs font-mono font-bold underline px-3 py-1.5 rounded-lg"
-                    style={{ color: "#F76C6C", backgroundColor: "rgba(247,108,108,0.08)" }}
-                  >
-                    Sepolia ↗
-                  </a>
-                )}
+                <div className="flex items-center gap-2">
+                  {img.imageUrl && (
+                    <button
+                      onClick={() =>
+                        downloadAsset(img.imageUrl!, img.fileName || `proofmint-${img.hash.slice(0, 8)}.png`)
+                      }
+                      className="text-xs font-semibold px-2.5 py-1.5 rounded flex items-center gap-1.5 transition-colors hover:bg-slate-100 cursor-pointer border"
+                      style={{
+                        color: "#24305E",
+                        borderColor: "rgba(55, 71, 133, 0.2)",
+                      }}
+                      title="Download original file"
+                    >
+                      <DownloadIcon size={13} />
+                      <span className="hidden sm:inline">Download</span>
+                    </button>
+                  )}
+                  {img.txHash && (
+                    <a
+                      href={`https://sepolia.etherscan.io/tx/${img.txHash}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs font-mono font-bold underline px-3 py-1.5 rounded"
+                      style={{ color: "#F76C6C" }}
+                    >
+                      Sepolia ↗
+                    </a>
+                  )}
+                </div>
               </div>
             ))}
           </div>

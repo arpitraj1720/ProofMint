@@ -43,7 +43,7 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
               <button
                 key={l.id}
                 onClick={() => setPage(l.id)}
-                className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer"
+                className="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer"
                 style={{
                   color: page === l.id ? "#A8D0E6" : "rgba(168,208,230,0.7)",
                   backgroundColor: page === l.id ? "rgba(168,208,230,0.12)" : "transparent",
@@ -60,14 +60,14 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setPage("register")}
-                  className="px-4 py-2 text-sm font-bold rounded-xl transition-all duration-200 hover:opacity-90 active:scale-95 shadow cursor-pointer"
+                  className="px-4 py-2 text-sm font-bold rounded-md transition-all duration-200 hover:opacity-90 active:scale-95 shadow cursor-pointer"
                   style={{ backgroundColor: "#F76C6C", color: "white" }}
                 >
                   + Register Proof
                 </button>
                 <button
                   onClick={() => setPage("profile")}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl transition-colors cursor-pointer border"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors cursor-pointer border"
                   style={{
                     backgroundColor:
                       page === "profile" ? "rgba(168,208,230,0.15)" : "rgba(36,48,94,0.6)",
@@ -76,7 +76,7 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
                   }}
                 >
                   <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white"
+                    className="w-6 h-6 rounded flex items-center justify-center text-xs font-bold text-white"
                     style={{ backgroundColor: "#374785" }}
                   >
                     {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
@@ -87,7 +87,7 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
                 </button>
                 <button
                   onClick={logout}
-                  className="px-3 py-2 text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+                  className="px-3 py-2 text-xs font-semibold rounded-md transition-colors cursor-pointer"
                   style={{
                     color: "rgba(247,108,108,0.9)",
                     backgroundColor: "rgba(247,108,108,0.1)",
@@ -101,14 +101,14 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setPage("login")}
-                  className="px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-200 cursor-pointer"
+                  className="px-4 py-2 text-sm font-semibold rounded-md transition-all duration-200 cursor-pointer"
                   style={{ color: "#A8D0E6", backgroundColor: "rgba(168,208,230,0.08)" }}
                 >
                   Sign In
                 </button>
                 <button
                   onClick={onStartRegister}
-                  className="px-4 py-2 text-sm font-bold rounded-xl transition-all duration-200 hover:opacity-90 active:scale-95 shadow cursor-pointer"
+                  className="px-4 py-2 text-sm font-bold rounded-md transition-all duration-200 hover:opacity-90 active:scale-95 shadow cursor-pointer"
                   style={{ backgroundColor: "#F76C6C", color: "white" }}
                 >
                   Register Image
@@ -120,7 +120,7 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
           {/* Mobile menu trigger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-2 rounded-lg cursor-pointer"
+            className="md:hidden p-2 rounded-md cursor-pointer"
             style={{ color: "#A8D0E6" }}
           >
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -157,7 +157,7 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
                 setPage(l.id);
                 setMenuOpen(false);
               }}
-              className="text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors"
+              className="text-left px-4 py-3 rounded-md text-sm font-medium transition-colors"
               style={{ color: page === l.id ? "#A8D0E6" : "rgba(168,208,230,0.65)" }}
             >
               {l.label}
@@ -173,7 +173,7 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
                   setPage("register");
                   setMenuOpen(false);
                 }}
-                className="px-4 py-3 text-sm font-bold rounded-xl text-center"
+                className="px-4 py-3 text-sm font-bold rounded-md text-center"
                 style={{ backgroundColor: "#F76C6C", color: "white" }}
               >
                 + Register New Proof
@@ -183,7 +183,7 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
                   logout();
                   setMenuOpen(false);
                 }}
-                className="px-4 py-3 text-sm font-semibold rounded-xl text-center"
+                className="px-4 py-3 text-sm font-semibold rounded-md text-center"
                 style={{ color: "#F76C6C", backgroundColor: "rgba(247,108,108,0.1)" }}
               >
                 Log Out
@@ -199,7 +199,7 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
                   setPage("login");
                   setMenuOpen(false);
                 }}
-                className="px-4 py-3 text-sm font-semibold rounded-xl text-center"
+                className="px-4 py-3 text-sm font-semibold rounded-md text-center"
                 style={{ color: "#A8D0E6", backgroundColor: "rgba(168,208,230,0.08)" }}
               >
                 Sign In
@@ -209,7 +209,7 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
                   onStartRegister();
                   setMenuOpen(false);
                 }}
-                className="px-4 py-3 text-sm font-bold rounded-xl text-center"
+                className="px-4 py-3 text-sm font-bold rounded-md text-center"
                 style={{ backgroundColor: "#F76C6C", color: "white" }}
               >
                 Register Image

@@ -155,7 +155,7 @@ export function BlockchainTelemetryHUD() {
           {/* Center/Right: Verified Contract Address Chip */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <div
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[11px] transition-all duration-150"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded border text-[11px] transition-all duration-150"
               style={{
                 backgroundColor: "rgba(36,48,94,0.6)",
                 borderColor: "rgba(168,208,230,0.2)",
@@ -192,7 +192,7 @@ export function BlockchainTelemetryHUD() {
             {/* RPC Latency & Details Trigger */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all hover:bg-white/10 active:scale-95 cursor-pointer border"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-semibold transition-all hover:bg-white/10 active:scale-95 cursor-pointer border"
               style={{
                 backgroundColor: "rgba(168,208,230,0.08)",
                 borderColor: "rgba(168,208,230,0.15)",
@@ -220,7 +220,7 @@ export function BlockchainTelemetryHUD() {
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl border relative font-sans"
+            className="w-full max-w-lg rounded-md p-6 sm:p-8 shadow-2xl border relative font-sans"
             style={{
               backgroundColor: "#24305E",
               borderColor: "rgba(168,208,230,0.25)",
@@ -231,7 +231,7 @@ export function BlockchainTelemetryHUD() {
             <div className="flex items-center justify-between mb-6 pb-4 border-b" style={{ borderColor: "rgba(168,208,230,0.15)" }}>
               <div className="flex items-center gap-3">
                 <div
-                  className="w-10 h-10 rounded-2xl flex items-center justify-center text-emerald-400"
+                  className="w-10 h-10 rounded-md flex items-center justify-center text-emerald-400"
                   style={{ backgroundColor: "rgba(16,185,129,0.15)" }}
                 >
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -248,7 +248,7 @@ export function BlockchainTelemetryHUD() {
 
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-1.5 rounded-lg hover:bg-white/10 text-[#A8D0E6] cursor-pointer"
+                className="p-1.5 rounded hover:bg-white/10 text-[#A8D0E6] cursor-pointer"
               >
                 ✕
               </button>
@@ -256,13 +256,13 @@ export function BlockchainTelemetryHUD() {
 
             {/* Key Telemetry Metrics Grid */}
             <div className="grid grid-cols-2 gap-3 mb-6 font-mono text-xs">
-              <div className="p-3.5 rounded-2xl border" style={{ backgroundColor: "#374785", borderColor: "rgba(168,208,230,0.12)" }}>
+              <div className="p-3.5 rounded-md border" style={{ backgroundColor: "#374785", borderColor: "rgba(168,208,230,0.12)" }}>
                 <span className="text-[10px] uppercase font-bold text-[#A8D0E6]/60 block mb-1">Network Chain ID</span>
                 <p className="text-sm font-bold text-white">11155111</p>
                 <span className="text-[10px] text-emerald-400 font-sans">● Live Testnet</span>
               </div>
 
-              <div className="p-3.5 rounded-2xl border" style={{ backgroundColor: "#374785", borderColor: "rgba(168,208,230,0.12)" }}>
+              <div className="p-3.5 rounded-md border" style={{ backgroundColor: "#374785", borderColor: "rgba(168,208,230,0.12)" }}>
                 <span className="text-[10px] uppercase font-bold text-[#A8D0E6]/60 block mb-1">Current Block</span>
                 <p className="text-sm font-bold text-emerald-400">
                   {telemetry.blockNumber ? `#${telemetry.blockNumber.toLocaleString()}` : "Syncing..."}
@@ -270,7 +270,7 @@ export function BlockchainTelemetryHUD() {
                 <span className="text-[10px] text-white/50 font-sans">~12s Finality</span>
               </div>
 
-              <div className="p-3.5 rounded-2xl border" style={{ backgroundColor: "#374785", borderColor: "rgba(168,208,230,0.12)" }}>
+              <div className="p-3.5 rounded-md border" style={{ backgroundColor: "#374785", borderColor: "rgba(168,208,230,0.12)" }}>
                 <span className="text-[10px] uppercase font-bold text-[#A8D0E6]/60 block mb-1">Base Gas Price</span>
                 <p className="text-sm font-bold text-[#F8E9A1]">
                   {telemetry.gasPriceGwei ? `${telemetry.gasPriceGwei} Gwei` : "..."}
@@ -278,7 +278,7 @@ export function BlockchainTelemetryHUD() {
                 <span className="text-[10px] text-emerald-400 font-sans">Optimal throughput</span>
               </div>
 
-              <div className="p-3.5 rounded-2xl border" style={{ backgroundColor: "#374785", borderColor: "rgba(168,208,230,0.12)" }}>
+              <div className="p-3.5 rounded-md border" style={{ backgroundColor: "#374785", borderColor: "rgba(168,208,230,0.12)" }}>
                 <span className="text-[10px] uppercase font-bold text-[#A8D0E6]/60 block mb-1">Node Latency</span>
                 <p className="text-sm font-bold text-white">
                   {telemetry.latencyMs !== null ? `${telemetry.latencyMs} ms` : "..."}
@@ -289,7 +289,7 @@ export function BlockchainTelemetryHUD() {
 
             {/* Smart Contract Card */}
             <div
-              className="p-4 rounded-2xl border mb-6"
+              className="p-4 rounded-md border mb-6"
               style={{ backgroundColor: "rgba(36,48,94,0.7)", borderColor: "rgba(168,208,230,0.2)" }}
             >
               <div className="flex items-center justify-between mb-2">
@@ -301,7 +301,7 @@ export function BlockchainTelemetryHUD() {
                 </span>
               </div>
 
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-black/20 border border-white/5 font-mono text-xs">
+              <div className="flex items-center justify-between p-2.5 rounded-md bg-black/20 border border-white/5 font-mono text-xs">
                 <span className="text-white truncate mr-2" title={CONTRACT_ADDRESS}>
                   {CONTRACT_ADDRESS}
                 </span>
@@ -332,7 +332,7 @@ export function BlockchainTelemetryHUD() {
               <button
                 onClick={fetchTelemetry}
                 disabled={isRefreshing}
-                className="flex-1 py-3 px-4 rounded-xl text-xs font-bold transition-all hover:bg-white/10 active:scale-95 cursor-pointer border flex items-center justify-center gap-2"
+                className="flex-1 py-3 px-4 rounded-md text-xs font-bold transition-all hover:bg-white/10 active:scale-95 cursor-pointer border flex items-center justify-center gap-2"
                 style={{
                   backgroundColor: "rgba(168,208,230,0.1)",
                   borderColor: "rgba(168,208,230,0.25)",
@@ -347,7 +347,7 @@ export function BlockchainTelemetryHUD() {
                 href={ETHERSCAN_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="flex-1 py-3 px-4 rounded-xl text-xs font-bold text-center transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-md"
+                className="flex-1 py-3 px-4 rounded-md text-xs font-bold text-center transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-md"
                 style={{ backgroundColor: "#F76C6C", color: "white" }}
               >
                 Explore Contract ↗

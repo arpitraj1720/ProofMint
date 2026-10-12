@@ -36,7 +36,7 @@ export function UploadDropzone({
       onDragLeave={() => setDragging(false)}
       onDrop={handleDrop}
       onClick={() => inputRef.current?.click()}
-      className="relative w-full rounded-3xl border-2 border-dashed cursor-pointer transition-all duration-200 flex flex-col items-center justify-center py-12 px-6 group"
+      className="relative w-full rounded-md border-2 border-dashed cursor-pointer transition-all duration-200 flex flex-col items-center justify-center py-12 px-6 group"
       style={{
         borderColor: dragging
           ? "#F76C6C"
@@ -74,13 +74,12 @@ export function UploadDropzone({
       >
         {sub}
       </p>
-      <div className="flex gap-2 flex-wrap justify-center">
+      <div className="flex gap-3 flex-wrap justify-center">
         {["JPG", "PNG", "WEBP", "GIF", "SVG"].map((f) => (
           <span
             key={f}
-            className="text-xs font-mono px-2.5 py-1 rounded-md"
+            className="text-xs font-mono font-bold tracking-wider"
             style={{
-              backgroundColor: dark ? "rgba(168,208,230,0.1)" : "rgba(55,71,133,0.1)",
               color: dark ? "#A8D0E6" : "#374785",
             }}
           >

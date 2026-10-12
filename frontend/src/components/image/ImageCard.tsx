@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { ImageRecord } from "../../services/api";
 import { formatDate, fmtBytes } from "../../utils/formatters";
 import { StatusBadge } from "../common/StatusBadge";
-import { CopyIcon } from "../icons/Icons";
+import { CopyIcon, DownloadIcon } from "../icons/Icons";
 import { ProvenanceCertificateModal } from "../common/ProvenanceCertificateModal";
+import { downloadAsset } from "../../utils/download";
 
 export interface ImageCardProps {
   image: ImageRecord;
@@ -15,6 +16,18 @@ export function ImageCard({ image }: ImageCardProps) {
   const dateStr = formatDate(image.uploadedAt);
   const [copied, setCopied] = useState(false);
   const [isCertOpen, setIsCertOpen] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!image.imageUrl || downloading) return;
+    setDownloading(true);
+    try {
+      await downloadAsset(image.imageUrl, image.fileName || `proofmint-${image.hash.slice(0, 8)}.png`);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   const copyHash = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -26,7 +39,7 @@ export function ImageCard({ image }: ImageCardProps) {
   return (
     <>
       <div
-        className="rounded-2xl overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-xl group flex flex-col"
+        className="rounded-md overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-xl group flex flex-col"
         style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.12)" }}
       >
         <div className="aspect-video overflow-hidden relative" style={{ backgroundColor: "#24305E" }}>
@@ -40,7 +53,7 @@ export function ImageCard({ image }: ImageCardProps) {
               href={`https://sepolia.etherscan.io/tx/${image.txHash}`}
               target="_blank"
               rel="noreferrer"
-              className="absolute top-3 right-3 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider backdrop-blur-md transition-opacity hover:opacity-100"
+              className="absolute top-3 right-3 px-2 py-1 rounded text-[10px] font-mono font-bold uppercase tracking-wider backdrop-blur-md transition-opacity hover:opacity-100"
               style={{
                 backgroundColor: "rgba(36,48,94,0.9)",
                 color: "#F76C6C",
@@ -62,7 +75,7 @@ export function ImageCard({ image }: ImageCardProps) {
             </p>
 
             <div
-              className="rounded-lg p-2.5 mb-4 flex items-center justify-between"
+              className="rounded-md p-2.5 mb-4 flex items-center justify-between"
               style={{ backgroundColor: "rgba(36,48,94,0.5)" }}
             >
               <div className="min-w-0 pr-2">
@@ -96,33 +109,47 @@ export function ImageCard({ image }: ImageCardProps) {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsCertOpen(true)}
-                className="px-2 py-1 rounded-md text-[11px] font-semibold flex items-center gap-1 transition-all hover:bg-emerald-500/20 active:scale-95 cursor-pointer"
+                className="px-2 py-1 rounded text-[11px] font-semibold flex items-center gap-1 transition-all hover:bg-emerald-500/20 active:scale-95 cursor-pointer"
                 style={{
-                  backgroundColor: "rgba(16, 185, 129, 0.15)",
                   color: "#10B981",
-                  border: "1px solid rgba(16, 185, 129, 0.3)",
+                  backgroundColor: "rgba(16, 185, 129, 0.1)",
+                  border: "1px solid rgba(16, 185, 129, 0.25)",
                 }}
-                title="Open Certificate of Authenticity"
+                title="View tamper-evident Certificate of Authenticity"
               >
                 <span>📜</span>
-                <span>Cert</span>
+                <span>Certificate</span>
               </button>
+
+              {image.imageUrl && (
+                <button
+                  onClick={handleDownload}
+                  disabled={downloading}
+                  className="px-2 py-1 rounded text-[11px] font-semibold flex items-center gap-1 transition-all hover:bg-sky-400/20 active:scale-95 cursor-pointer"
+                  style={{
+                    color: "#A8D0E6",
+                    backgroundColor: "rgba(168, 208, 230, 0.1)",
+                    border: "1px solid rgba(168, 208, 230, 0.25)",
+                  }}
+                  title="Download original image file"
+                >
+                  <DownloadIcon size={12} />
+                  <span>{downloading ? "..." : "Save"}</span>
+                </button>
+              )}
+
               {image.txHash ? (
                 <a
                   href={`https://sepolia.etherscan.io/tx/${image.txHash}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs font-mono underline hover:opacity-80"
+                  className="text-xs font-mono font-bold underline px-2 py-1 rounded"
                   style={{ color: "#F76C6C" }}
-                  title={image.txHash}
+                  title="View on Sepolia"
                 >
-                  {shortTx}
+                  {shortTx} ↗
                 </a>
-              ) : (
-                <span className="text-xs font-mono" style={{ color: "rgba(168,208,230,0.4)" }}>
-                  Confirmed
-                </span>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
@@ -134,7 +161,7 @@ export function ImageCard({ image }: ImageCardProps) {
         onClose={() => setIsCertOpen(false)}
         data={{
           title: "Certificate of Digital Authenticity",
-          fileName: image.fileName || "Registered Asset",
+          fileName: image.fileName || "Registered Media",
           fileSize: image.fileSize,
           imageUrl: image.imageUrl,
           hash: image.hash,
