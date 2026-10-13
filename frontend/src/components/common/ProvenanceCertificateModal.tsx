@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import QRCode from "qrcode";
 import { formatDate, fmtBytes } from "../../utils/formatters";
 import { ProofMintLogo } from "../ProofMintLogo";
-import { DownloadIcon } from "../icons/Icons";
+import { DownloadIcon, PrinterIcon, LinkIcon, ImageIcon, CheckCircleIcon } from "../icons/Icons";
 import { downloadAsset } from "../../utils/download";
 
 export interface CertificateData {
@@ -21,7 +21,7 @@ export interface ProvenanceCertificateModalProps {
   data: CertificateData;
 }
 
-const CONTRACT_ADDRESS = "0x3E73D50b6591Dd8626eE32ebC367bBDe03E88685";
+const CONTRACT_ADDRESS = "0x55fe6BEC3C241840FF337E5CB323671Fe7265cEF";
 
 export function ProvenanceCertificateModal({
   isOpen,
@@ -115,9 +115,9 @@ export function ProvenanceCertificateModal({
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 p-2 rounded hover:bg-white/10 text-[#A8D0E6] cursor-pointer z-20"
+            className="absolute top-5 right-5 p-2 rounded hover:bg-white/10 text-[#A8D0E6] cursor-pointer z-20 text-lg font-bold"
           >
-            ✕
+            ×
           </button>
 
           {/* Certificate Header */}
@@ -158,7 +158,7 @@ export function ProvenanceCertificateModal({
                   />
                 ) : (
                   <div className="text-center p-4">
-                    <span className="text-4xl block mb-2">🖼️</span>
+                    <ImageIcon size={36} className="text-[#A8D0E6] mx-auto mb-2 opacity-80" />
                     <span className="text-[11px] font-mono opacity-60">Verified Asset</span>
                   </div>
                 )}
@@ -171,7 +171,7 @@ export function ProvenanceCertificateModal({
                     color: "#ffffff",
                   }}
                 >
-                  <span>✓</span>
+                  <CheckCircleIcon size={11} color="#ffffff" />
                   <span>VERIFIED</span>
                 </div>
               </div>
@@ -299,20 +299,19 @@ export function ProvenanceCertificateModal({
               className="w-full sm:flex-1 py-3.5 px-4 rounded-md font-bold text-xs sm:text-sm transition-all hover:opacity-90 active:scale-95 cursor-pointer shadow-lg flex items-center justify-center gap-2"
               style={{ backgroundColor: "#F76C6C", color: "white" }}
             >
-              <span>🖨️</span>
+              <PrinterIcon size={16} />
               <span>Print Certificate</span>
             </button>
 
             <button
               onClick={handleCopyLink}
-              className="w-full sm:flex-1 py-3.5 px-4 rounded-md font-bold text-xs sm:text-sm transition-all hover:bg-white/10 active:scale-95 cursor-pointer border flex items-center justify-center gap-2"
+              className="w-full sm:flex-1 py-3.5 px-4 rounded-md font-bold text-xs sm:text-sm transition-all hover:bg-[#1E284F] active:scale-95 cursor-pointer border flex items-center justify-center gap-2 shadow-sm text-white"
               style={{
-                backgroundColor: "rgba(168,208,230,0.1)",
-                borderColor: "rgba(168,208,230,0.25)",
-                color: "#A8D0E6",
+                backgroundColor: "#24305E",
+                borderColor: "rgba(168,208,230,0.3)",
               }}
             >
-              <span>{copiedLink ? "✓" : "🔗"}</span>
+              {copiedLink ? <CheckCircleIcon size={16} color="#10B981" /> : <LinkIcon size={16} />}
               <span>{copiedLink ? "Link Copied!" : "Copy Link"}</span>
             </button>
           </div>

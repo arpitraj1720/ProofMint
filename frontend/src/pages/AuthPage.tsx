@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Page } from "../types";
 import { useAuth } from "../context/AuthContext";
 import { ProofMintIcon } from "../components/ProofMintLogo";
-import { GoogleIcon, XCircleIcon } from "../components/icons/Icons";
+import { GoogleIcon, XCircleIcon, LockIcon } from "../components/icons/Icons";
 
 export interface AuthPageProps {
   initialMode?: "login" | "register";
@@ -195,11 +195,11 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
         {/* Notice from Landing CTA */}
         {notice && (
           <div
-            className="rounded-md p-4 mb-6 flex items-center gap-3"
-            style={{ backgroundColor: "rgba(248,233,161,0.15)", border: "1px solid rgba(248,233,161,0.3)" }}
+            className="rounded-md p-4 mb-6 flex items-center gap-3 shadow-md"
+            style={{ backgroundColor: "#374785", borderLeft: "4px solid #F8E9A1" }}
           >
-            <span className="text-lg">🔒</span>
-            <span className="text-xs font-medium" style={{ color: "#F8E9A1" }}>
+            <LockIcon size={18} className="text-[#F8E9A1] shrink-0" />
+            <span className="text-xs font-semibold text-white">
               {notice}
             </span>
           </div>
@@ -263,14 +263,12 @@ export function AuthPage({ initialMode = "login", notice, setPage }: AuthPagePro
           {/* Error Message */}
           {error && (
             <div
-              className="rounded-md p-3.5 mb-5 text-xs font-medium flex items-center gap-2.5 animate-fade-in-up"
+              className="rounded-md p-3.5 mb-5 text-xs font-semibold flex items-center gap-2.5 animate-fade-in-up text-white shadow-md"
               style={{
-                backgroundColor: "rgba(247,108,108,0.15)",
-                border: "1px solid rgba(247,108,108,0.3)",
-                color: "white",
+                backgroundColor: "#F76C6C",
               }}
             >
-              <XCircleIcon size={16} />
+              <XCircleIcon size={16} color="#FFFFFF" />
               <span>{error}</span>
             </div>
           )}

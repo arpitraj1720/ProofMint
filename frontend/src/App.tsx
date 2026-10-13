@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Page } from "./types";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import { BlockchainTelemetryHUD } from "./components/layout/BlockchainTelemetryHUD";
 import { Navbar } from "./components/layout/Navbar";
 import { Footer } from "./components/layout/Footer";
 import { HomePage } from "./pages/HomePage";
@@ -90,7 +89,6 @@ function AppContent() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <BlockchainTelemetryHUD />
       <Navbar
         page={page}
         setPage={(p) => {

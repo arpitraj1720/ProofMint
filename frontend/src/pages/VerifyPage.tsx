@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Page, VerifyStep } from "../types";
 import { verifyImage, VerifyResponse } from "../services/api";
 import { formatDate, fmtBytes } from "../utils/formatters";
-import { CheckCircleIcon, XCircleIcon } from "../components/icons/Icons";
+import { CheckCircleIcon, XCircleIcon, CertificateIcon } from "../components/icons/Icons";
 import { UploadDropzone } from "../components/common/UploadDropzone";
-import { CryptographicVisualizer } from "../components/common/CryptographicVisualizer";
 import { ProvenanceCertificateModal } from "../components/common/ProvenanceCertificateModal";
 
 export interface VerifyPageProps {
@@ -88,17 +87,17 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
         {/* Error Alert */}
         {errorMsg && (
           <div
-            className="rounded-md p-4 mb-8 flex items-center justify-between animate-fade-in-up"
-            style={{ backgroundColor: "rgba(247,108,108,0.15)", border: "1px solid rgba(247,108,108,0.3)" }}
+            className="rounded-md p-4 mb-8 flex items-center justify-between animate-fade-in-up shadow-xl"
+            style={{ backgroundColor: "#F76C6C" }}
           >
             <div className="flex items-center gap-3">
-              <XCircleIcon size={20} />
-              <span className="text-sm text-white font-medium">{errorMsg}</span>
+              <XCircleIcon size={20} color="#FFFFFF" />
+              <span className="text-sm text-white font-semibold">{errorMsg}</span>
             </div>
             <button
               onClick={() => setErrorMsg(null)}
-              className="text-xs font-bold underline cursor-pointer"
-              style={{ color: "#F76C6C" }}
+              className="px-3 py-1.5 rounded-md font-bold text-xs cursor-pointer shrink-0 shadow-sm transition hover:bg-white/90"
+              style={{ backgroundColor: "#FFFFFF", color: "#F76C6C" }}
             >
               Dismiss
             </button>
@@ -136,7 +135,7 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                       <CheckCircleIcon size={36} color="#F8E9A1" />
                     </div>
                     <h2 className="text-3xl font-extrabold text-white mb-2">
-                      {verifyResult.title || "✓ Verified"}
+                      {verifyResult.title || "Authenticity Confirmed"}
                     </h2>
                     <p className="text-base font-medium" style={{ color: "#A8D0E6" }}>
                       {verifyResult.message || "This image matches a registered ProofMint proof."}
@@ -222,16 +221,15 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                         color: "white",
                       }}
                     >
-                      <span>📜</span>
+                      <CertificateIcon size={18} />
                       <span>View Holographic Certificate</span>
                     </button>
                     <button
                       onClick={handleReset}
-                      className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:bg-white/10 active:scale-95 cursor-pointer"
+                      className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:bg-[#2c3a70] active:scale-95 cursor-pointer text-white border shadow-sm"
                       style={{
-                        backgroundColor: "rgba(168,208,230,0.1)",
-                        color: "#A8D0E6",
-                        border: "1px solid rgba(168,208,230,0.2)",
+                        backgroundColor: "#374785",
+                        borderColor: "rgba(168,208,230,0.25)",
                       }}
                     >
                       Verify Another Image
@@ -243,10 +241,10 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                 <div>
                   <div className="text-center mb-8">
                     <div
-                      className="w-16 h-16 rounded-md flex items-center justify-center mx-auto mb-4"
-                      style={{ backgroundColor: "rgba(247,108,108,0.15)" }}
+                      className="w-16 h-16 rounded-md flex items-center justify-center mx-auto mb-4 shadow-lg"
+                      style={{ backgroundColor: "#F76C6C" }}
                     >
-                      <XCircleIcon size={36} />
+                      <XCircleIcon size={36} color="#FFFFFF" />
                     </div>
                     <h2 className="text-3xl font-extrabold text-white mb-2">
                       {verifyResult.title || "No Matching Proof Found"}
@@ -300,11 +298,10 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                     </button>
                     <button
                       onClick={handleReset}
-                      className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:bg-white/10 cursor-pointer"
+                      className="flex-1 py-4 rounded-md font-bold text-sm transition-all hover:bg-[#2c3a70] cursor-pointer text-white border shadow-sm"
                       style={{
-                        backgroundColor: "rgba(168,208,230,0.1)",
-                        color: "#A8D0E6",
-                        border: "1px solid rgba(168,208,230,0.2)",
+                        backgroundColor: "#374785",
+                        borderColor: "rgba(168,208,230,0.25)",
                       }}
                     >
                       Try Another Image
@@ -315,12 +312,17 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
             </div>
           </div>
         ) : step === "checking" ? (
-          /* ── Checking State (Cryptographic Visualizer) ── */
-          <CryptographicVisualizer
-            file={file}
-            mode="verify"
-            statusText="Querying Ethereum Sepolia smart contract (0x3E73...8685)"
-          />
+          /* ── Checking State ── */
+          <div
+            className="rounded-md p-10 text-center shadow-xl animate-fade-in-up"
+            style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.15)" }}
+          >
+            <div className="w-10 h-10 border-2 border-white/20 border-t-[#F76C6C] rounded-full animate-spin mx-auto mb-4" />
+            <h3 className="text-lg font-bold text-white mb-2">Verifying Image on Ethereum Sepolia</h3>
+            <p className="text-sm font-mono" style={{ color: "rgba(168,208,230,0.7)" }}>
+              Querying smart contract (0x55fe...5cEF)...
+            </p>
+          </div>
         ) : file ? (
           /* ── File Selected / Ready to Verify ── */
           <div className="animate-fade-in-up">
@@ -346,8 +348,8 @@ export function VerifyPage({ setPage }: VerifyPageProps) {
                 </div>
                 <button
                   onClick={handleReset}
-                  className="px-3 py-1.5 rounded text-xs font-semibold cursor-pointer"
-                  style={{ color: "rgba(247,108,108,0.9)", backgroundColor: "rgba(247,108,108,0.1)" }}
+                  className="px-3 py-1.5 rounded-md text-xs font-semibold cursor-pointer text-white shadow-sm transition-opacity hover:opacity-90"
+                  style={{ backgroundColor: "#F76C6C" }}
                 >
                   Change Image
                 </button>

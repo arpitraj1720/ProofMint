@@ -6,7 +6,8 @@ import { formatDate, fmtBytes } from "../utils/formatters";
 import { StatCard } from "../components/common/StatCard";
 import { StatusBadge } from "../components/common/StatusBadge";
 import { ImageCard } from "../components/image/ImageCard";
-import { UploadIcon, XCircleIcon, DownloadIcon } from "../components/icons/Icons";
+import { TransferOwnershipModal } from "../components/common/TransferOwnershipModal";
+import { UploadIcon, XCircleIcon, DownloadIcon, TransferIcon } from "../components/icons/Icons";
 import { downloadAsset } from "../utils/download";
 
 export interface DashboardPageProps {
@@ -20,6 +21,7 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [transferTarget, setTransferTarget] = useState<ImageRecord | null>(null);
 
   const fetchProofs = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -85,11 +87,10 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
               </button>
               <button
                 onClick={() => setPage("profile")}
-                className="px-4 py-3.5 rounded-md text-sm font-semibold transition-all hover:bg-white/10 cursor-pointer"
+                className="px-5 py-3.5 rounded-md text-sm font-semibold transition-all hover:bg-[#2c3a70] cursor-pointer text-white border shadow-sm"
                 style={{
-                  color: "#A8D0E6",
-                  backgroundColor: "rgba(168,208,230,0.1)",
-                  border: "1px solid rgba(168,208,230,0.2)",
+                  backgroundColor: "#374785",
+                  borderColor: "rgba(168,208,230,0.25)",
                 }}
               >
                 View Profile
@@ -168,19 +169,19 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
         {/* Error Alert */}
         {error && (
           <div
-            className="rounded-md p-5 mb-8 flex items-center justify-between shadow-sm"
-            style={{ backgroundColor: "rgba(247,108,108,0.1)", border: "1px solid rgba(247,108,108,0.25)" }}
+            className="rounded-md p-4 mb-8 flex items-center justify-between shadow-xl"
+            style={{ backgroundColor: "#F76C6C" }}
           >
             <div className="flex items-center gap-3">
-              <XCircleIcon size={20} />
-              <span className="text-sm font-medium" style={{ color: "#24305E" }}>
+              <XCircleIcon size={20} color="#FFFFFF" />
+              <span className="text-sm font-semibold text-white">
                 {error}
               </span>
             </div>
             <button
               onClick={fetchProofs}
-              className="px-3.5 py-1.5 rounded text-xs font-bold text-white cursor-pointer"
-              style={{ backgroundColor: "#24305E" }}
+              className="px-3.5 py-1.5 rounded-md text-xs font-bold cursor-pointer shadow-sm transition hover:bg-white/90"
+              style={{ backgroundColor: "#FFFFFF", color: "#F76C6C" }}
             >
               Retry
             </button>
@@ -235,7 +236,19 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
         ) : view === "grid" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredImages.map((img, idx) => (
-              <ImageCard key={img._id || img.hash || idx} image={img} />
+              <ImageCard
+                key={img._id || img.hash || idx}
+                image={img}
+                onImageUpdated={(updated) =>
+                  setImages((prev) =>
+                    prev.map((item) =>
+                      (item._id && item._id === updated._id) || item.hash === updated.hash
+                        ? updated
+                        : item
+                    )
+                  )
+                }
+              />
             ))}
           </div>
         ) : (
@@ -264,7 +277,23 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
                   </p>
                 </div>
                 <div className="hidden sm:block">
-                  <StatusBadge status="registered" />
+                  <div className="flex items-center gap-1.5">
+                    <StatusBadge status="registered" />
+                    {img.registrationMode === "self_sovereign" && (
+                      <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded uppercase bg-rose-50 text-rose-600 border border-rose-200">
+                        MetaMask
+                      </span>
+                    )}
+                  </div>
+                  {img.transferredTo && (
+                    <span
+                      className="block text-[10px] font-mono mt-0.5 truncate max-w-[120px] font-semibold"
+                      style={{ color: "#D97706" }}
+                      title={`Transferred to ${img.transferredTo}`}
+                    >
+                      Transferred: {img.transferredTo.slice(0, 6)}…
+                    </span>
+                  )}
                 </div>
                 <div className="hidden md:block text-right">
                   <span className="text-[10px] uppercase font-bold tracking-wider block text-gray-400">Fingerprint</span>
@@ -273,15 +302,26 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setTransferTarget(img)}
+                    className="text-xs font-semibold px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-all hover:opacity-90 active:scale-95 cursor-pointer text-white shadow-sm"
+                    style={{
+                      backgroundColor: "#F76C6C",
+                    }}
+                    title="Transfer on-chain ownership to another wallet"
+                  >
+                    <TransferIcon size={13} />
+                    <span className="hidden sm:inline">Transfer</span>
+                  </button>
                   {img.imageUrl && (
                     <button
                       onClick={() =>
                         downloadAsset(img.imageUrl!, img.fileName || `proofmint-${img.hash.slice(0, 8)}.png`)
                       }
-                      className="text-xs font-semibold px-2.5 py-1.5 rounded flex items-center gap-1.5 transition-colors hover:bg-slate-100 cursor-pointer border"
+                      className="text-xs font-semibold px-3 py-1.5 rounded-md flex items-center gap-1.5 transition-all hover:bg-[#1E284F] active:scale-95 cursor-pointer text-white border shadow-sm"
                       style={{
-                        color: "#24305E",
-                        borderColor: "rgba(55, 71, 133, 0.2)",
+                        backgroundColor: "#24305E",
+                        borderColor: "rgba(36, 48, 94, 0.4)",
                       }}
                       title="Download original file"
                     >
@@ -306,6 +346,22 @@ export function DashboardPage({ setPage }: DashboardPageProps) {
           </div>
         )}
       </div>
+
+      {/* On-Chain Transfer Modal for List View */}
+      <TransferOwnershipModal
+        isOpen={!!transferTarget}
+        onClose={() => setTransferTarget(null)}
+        image={transferTarget}
+        onSuccess={(updated) => {
+          setImages((prev) =>
+            prev.map((item) =>
+              (item._id && item._id === updated._id) || item.hash === updated.hash
+                ? updated
+                : item
+            )
+          );
+        }}
+      />
     </div>
   );
 }

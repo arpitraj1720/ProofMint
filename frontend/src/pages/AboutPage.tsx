@@ -175,7 +175,7 @@ export function AboutPage({ setPage }: AboutPageProps) {
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#A8D0E6" }}></span>
-                    <span>Real-time blockchain telemetry HUD & UI design system</span>
+                    <span>High-contrast Web3 UI design system & responsive layout</span>
                   </li>
                 </ul>
               </div>

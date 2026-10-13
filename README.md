@@ -6,14 +6,14 @@
 
 <p align="center">
   <strong>Decentralized Digital Image Provenance & Authenticity Verification Platform</strong><br />
-  Powered by Cryptographic SHA-256 Hashing, AI Media Analysis, and Ethereum Sepolia Blockchain
+  Powered by Cryptographic SHA-256 Hashing, AI Media Analysis, and Ethereum Sepolia Smart Contracts
 </p>
 
 <p align="center">
   <a href="https://proof-mint-mu.vercel.app" target="_blank">
     <img src="https://img.shields.io/badge/Live%20Demo-Vercel-blue?style=for-the-badge&logo=vercel" alt="Live Demo" />
   </a>
-  <a href="https://sepolia.etherscan.io/address/0x3E73D50b6591Dd8626eE32ebC367bBDe03E88685" target="_blank">
+  <a href="https://sepolia.etherscan.io/address/0x55fe6BEC3C241840FF337E5CB323671Fe7265cEF" target="_blank">
     <img src="https://img.shields.io/badge/Smart%20Contract-Sepolia%20Etherscan-627EEA?style=for-the-badge&logo=ethereum" alt="Sepolia Etherscan" />
   </a>
   <a href="https://proofmint-pwcy.onrender.com" target="_blank">
@@ -30,276 +30,384 @@
   <img src="https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white" alt="Express" />
   <img src="https://img.shields.io/badge/MongoDB%20Atlas-4EA94B?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB" />
   <img src="https://img.shields.io/badge/Solidity%20^0.8.28-363636?style=flat-square&logo=solidity&logoColor=white" alt="Solidity" />
-  <img src="https://img.shields.io/badge/Hardhat-FFF100?style=flat-square&logo=hardhat&logoColor=black" alt="Hardhat" />
+  <img src="https://img.shields.io/badge/Ethers.js%20v6-2535A0?style=flat-square&logo=ethereum&logoColor=white" alt="Ethers.js" />
   <img src="https://img.shields.io/badge/Cloudinary-3448C5?style=flat-square&logo=cloudinary&logoColor=white" alt="Cloudinary" />
   <img src="https://img.shields.io/badge/Google%20OAuth%202.0-4285F4?style=flat-square&logo=google&logoColor=white" alt="Google OAuth" />
 </p>
 
 ---
 
-## 🌐 Website & Frontend Showcase
+## Academic Attribution & Team
 
-ProofMint provides a streamlined, accessible Web3 experience built with **React 19**, **TypeScript**, and **Tailwind CSS v4**. It is engineered to bridge decentralized trust with zero-friction user onboarding.
+ProofMint is developed as a decentralized blockchain engineering project by students of **Vellore Institute of Technology (VIT), Chennai**, under the academic guidance and supervision of **Dr. Malathi G** (Professor, School of Computer Science and Engineering, VIT Chennai).
 
-### 🚀 Landing Page & Interactive Hero
-The ProofMint landing page welcomes creators, journalists, and verifiers with clear real-time network status, cryptographic explanations, and single-click access to both public verification and creator registration.
+### Project Contributors
+- **Arpit Raj** — Backend Architecture, Ethereum Smart Contract Engineering, Blockchain Service Integration & Relayer Infrastructure.
+- **Aaron Mathew** — Frontend Architecture, UI/UX Engineering, Web3 MetaMask Client Integration & Provenance Verification.
 
-<p align="center">
-  <img src="screenshots/hero-preview.png" alt="ProofMint Landing Page Hero" width="100%" />
-</p>
-
----
-
-### 🔍 Instant Public Image Verification
-*No login, wallet, or MetaMask required.* Anyone can drag and drop an image to compute its SHA-256 cryptographic fingerprint client-side and verify its authenticity against the Ethereum Sepolia smart contract in real time.
-
-<p align="center">
-  <img src="screenshots/verify-page.png" alt="ProofMint Public Verification" width="100%" />
-</p>
-
-- **Instant Hash Computation**: Deterministic SHA-256 fingerprint generated directly from the raw image byte buffer.
-- **On-Chain Confirmation**: Queries the smart contract for verifiable immutability.
-- **Authenticity Verdict**: Returns a cryptographically verified badge, registration timestamp, and direct transaction link to Sepolia Etherscan.
+*Both contributors contributed equally across architectural planning, full-stack implementation, testing, and deployment.*
 
 ---
 
-### 🔐 Frictionless Authentication & Security
-ProofMint supports standard credentials alongside **Google OAuth 2.0** for one-click creator registration, complete with JWT session management and protected dashboards.
+## Executive Summary & System Overview
 
-<p align="center">
-  <img src="screenshots/auth-page.png" alt="ProofMint Authentication" width="100%" />
-</p>
+ProofMint provides a secure, tamper-evident protocol for establishing mathematical provenance, timestamping, and ownership rights over digital media. By marrying cryptographic client-side and server-side hashing with immutable Ethereum Sepolia consensus, ProofMint eliminates reliance on easily stripped EXIF headers and mutable databases.
 
----
+### Core Platform Capabilities
 
-### 🛡️ Cryptographic Architecture & Provenance
-Transparent documentation of ProofMint's underlying cryptographic guarantees, illustrating how even a 1-pixel alteration completely mutates the SHA-256 digest, preventing unauthorized tampering or forgery.
+1. **Dual-Architecture Registration (Gasless Relayer vs. MetaMask Self-Sovereignty)**:
+   - **Gasless Relayer Mode**: The platform's relayer signs and sponsors testnet gas on Sepolia via automated JSON-RPC calls. Creators do not need MetaMask, crypto wallets, or Sepolia ETH, delivering an effortless Web2-friendly onboarding experience.
+   - **Self-Sovereign Mode (MetaMask)**: Users connect their personal Ethereum wallet (`window.ethereum`) to sign and broadcast the `storeHash` transaction directly to Sepolia. The creator's personal address becomes the immutable `msg.sender` and primary copyright holder on-chain.
 
-<p align="center">
-  <img src="screenshots/about-page.png" alt="Cryptographic Image Proofs" width="100%" />
-</p>
+2. **On-Chain Ownership Transfer**:
+   - Registered media proofs can be transferred to a new Ethereum wallet address (`0x...`) directly from the creator dashboard.
+   - The smart contract executes `transferProof(hash, newOwner)`, validating caller ownership, updating the current owner, and firing an immutable `ProofTransferred` event that creates an auditable chain of custody on Etherscan.
 
----
+3. **Tamper-Evident Holographic Certificate**:
+   - Generates a cryptographic Certificate of Authenticity for every registered asset.
+   - Includes deterministic SHA-256 hash, consensus block height, block timestamp, creator wallet, and an interactive dynamic QR code linking directly to the verified transaction on Sepolia Etherscan.
+   - One-click print and PDF export capabilities for offline legal provenance.
 
-## 🎯 The Problem
+4. **Original Media Asset Download**:
+   - High-fidelity storage on Cloudinary CDN allows creators to download the pristine original asset at any time with guaranteed byte-integrity matching its on-chain fingerprint.
 
-In an era of generative AI, deepfakes, and rampant media redistribution, proving that a digital image is authentic and unaltered is nearly impossible:
-- **Metadata is Fragile**: EXIF tags and file creation dates are effortlessly stripped or forged by social media platforms and photo editors.
-- **Deepfakes & AI Images**: Synthetic media spreads unchecked without verifiable origin or creator attribution.
-- **Copyright Theft**: Artists, photographers, and journalists lose attribution when their work is replicated or claimed by others.
+5. **Universal Zero-Gas Public Verification**:
+   - Anyone can drag and drop an image to verify its authenticity against Ethereum consensus in real time without creating an account or paying transaction fees.
 
----
-
-## 💡 The ProofMint Solution
-
-ProofMint solves this dilemma through **cryptographic fingerprints and immutable blockchain consensus**:
-
-1. **Deterministic Fingerprinting**: Rather than attempting to store massive media files on-chain (which is cost-prohibitive and slow), ProofMint calculates the image's unique **SHA-256 cryptographic hash**.
-2. **Immutable Blockchain Anchoring**: The 256-bit hash is permanently registered in our Solidity smart contract on the **Ethereum Sepolia testnet**.
-3. **Decentralized Media Storage**: The high-resolution image is hosted on **Cloudinary**, while its metadata is indexed in **MongoDB Atlas**.
-4. **AI Provenance Analysis**: During registration, media is analyzed with **Hugging Face AI** inference models to classify synthetic vs authentic media.
-5. **Zero-Friction Public Verification**: Anyone holding an image file can test its authenticity against the blockchain without creating an account or paying gas.
+6. **Professional Enterprise Interface**:
+   - Engineered with custom SVG vector illustrations and a high-contrast, tactile design system with minimal corner radii (`rounded-md` / 6px) — strictly avoiding emojis or faded translucent buttons to maintain an academic and enterprise standard.
 
 ---
 
-## 🔄 End-to-End Architecture
+## The Problem & The ProofMint Solution
+
+### The Problem
+- **Vulnerable Metadata**: Standard EXIF tags, author metadata, and creation dates are routinely stripped or forged by image editing software and social media CDNs.
+- **AI-Generated Impersonation**: Generative AI tools flood the internet with synthetic imagery, creating deep uncertainty regarding media originality and journalistic truth.
+- **Uncredited Plagiarism**: Independent creators, photojournalists, and artists lack an accessible, cost-effective method to legally anchor proof-of-first-creation.
+
+### The ProofMint Solution
+- **Deterministic Digest (SHA-256)**: Rather than storing heavy binary images on-chain, ProofMint hashes image bytes into a unique 256-bit hexadecimal string. Even a single changed pixel completely scrambles this digest (avalanche effect).
+- **Consensus-Backed Proof of Existence**: The digest is inscribed into the `ProofMint` smart contract on Ethereum Sepolia, providing an immutable mathematical timestamp (`block.timestamp` and `block.number`).
+- **Chain of Custody Tracking**: The smart contract records both the initial minter (`registrant`) and the active owner (`currentOwner`), permitting seamless on-chain transfer of digital rights.
+
+---
+
+## System Architecture & Workflow
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor Creator as Image Creator
-    participant UI as React Frontend
+    participant UI as React 19 Frontend
+    participant Wallet as MetaMask (Optional)
     participant API as Express Backend
-    participant AI as Hugging Face AI
     participant Cloud as Cloudinary CDN
     participant DB as MongoDB Atlas
-    participant Chain as Ethereum Sepolia Contract
+    participant Chain as Ethereum Sepolia Smart Contract
 
-    Note over Creator, Chain: ── Registration Flow ──
-    Creator->>UI: Uploads Original Image
-    UI->>API: POST /api/images (Multipart + JWT)
-    API->>API: Compute deterministic SHA-256 Hash
-    API->>AI: Perform AI synthetic image detection
-    AI-->>API: Returns AI classification score
-    API->>Cloud: Upload image buffer
-    Cloud-->>API: Returns secure CDN URL
-    API->>Chain: storeHash(hash) via ethers.js
-    Chain-->>API: Returns Sepolia Transaction Hash
-    API->>DB: Save metadata (Owner, Hash, CDN URL, TxHash, AI Score)
-    API-->>UI: Return Registration Certificate
-    UI-->>Creator: Displays Success + Etherscan Link
+    alt Option A: Gasless Relayer Mode
+        Creator->>UI: Selects Image + Gasless Relayer Mode
+        UI->>API: POST /api/images (Multipart + JWT)
+        API->>API: Compute SHA-256 Digest
+        API->>Cloud: Upload image buffer
+        Cloud-->>API: Return secure asset URL
+        API->>Chain: storeHash(hash) [Relayer Wallet msg.sender]
+        Chain-->>API: Returns Sepolia TxHash + Block Number
+        API->>DB: Save record (registrationMode: gasless)
+        API-->>UI: Return Registration Certificate & TxHash
+    else Option B: Self-Sovereign Mode (MetaMask)
+        Creator->>UI: Selects Image + MetaMask Mode
+        UI->>UI: Compute client-side SHA-256 Digest
+        UI->>Wallet: Prompts storeHash(hash) on Sepolia
+        Wallet->>Chain: Executes storeHash(hash) [User msg.sender]
+        Chain-->>Wallet: Transaction mined & confirmed
+        Wallet-->>UI: Return userTxHash & signerAddress
+        UI->>API: POST /api/images (Image + userTxHash + signerAddress)
+        API->>Cloud: Upload image buffer
+        Cloud-->>API: Return secure asset URL
+        API->>Chain: verifyHash(hash) on-chain confirmation
+        API->>DB: Save record (registrationMode: self_sovereign, signerAddress)
+        API-->>UI: Return Registration Certificate & Etherscan Link
+    end
 
-    Note over Creator, Chain: ── Public Verification Flow ──
-    actor Verifier as Anyone (Public)
-    Verifier->>UI: Drops image to verify
-    UI->>API: POST /api/images/verify
-    API->>API: Compute SHA-256 Hash
-    API->>Chain: verifyHash(hash)
-    Chain-->>API: Returns boolean (true/false)
-    API->>DB: Query metadata & timestamp
-    DB-->>API: Returns record details (no private owner data exposed)
-    API-->>UI: Verified Verdict + Blockchain Proof Details
-    UI-->>Verifier: Displays Authentic Badge & Certificate
+    Note over Creator, Chain: ── On-Chain Ownership Transfer ──
+    Creator->>UI: Clicks "Transfer" & inputs recipient address (0x...)
+    UI->>API: POST /api/images/:id/transfer
+    API->>Chain: transferProof(hash, newOwner)
+    Chain-->>API: Emits ProofTransferred event + TxHash
+    API->>DB: Update transferredTo, transferredAt, transferTxHash
+    API-->>UI: Return Transfer Receipt & Sepolia Link
 ```
 
 ---
 
-## ✨ Key Features
+## Smart Contract Specification
 
-- 🛡️ **Zero-Friction Public Verification**: Anyone can verify an image instantly from any device without a wallet or account.
-- ⛓️ **Ethereum Sepolia Blockchain**: All proofs are permanently written into a verified smart contract.
-- ⚡ **Gasless Creator Experience**: Automated server-relayed minting ensures creators don't need Sepolia ETH in their personal wallet to mint proofs.
-- 🤖 **AI Content Detection**: Integrated Hugging Face machine learning models analyze images for generative AI markers.
-- ☁️ **High-Performance Hybrid Storage**: High-resolution image assets are served instantly via Cloudinary CDN, while the immutable cryptographic fingerprint remains on-chain.
-- 🔑 **Multi-Factor Authentication**: Supports password authentication and Google One-Tap / OAuth 2.0.
-- 📱 **Fully Responsive UI**: Mobile-optimized, dark-navy theme crafted with Tailwind CSS v4 and fluid animations.
+The core contract is deployed on **Ethereum Sepolia** and fully verified on Etherscan:
 
----
-
-## 📜 Smart Contract Specification
-
-The core contract is deployed on **Ethereum Sepolia** and verified on Etherscan:
-
-- **Network**: Ethereum Sepolia Testnet
-- **Contract Address**: [`0x3E73D50b6591Dd8626eE32ebC367bBDe03E88685`](https://sepolia.etherscan.io/address/0x3E73D50b6591Dd8626eE32ebC367bBDe03E88685)
+- **Network**: Ethereum Sepolia Testnet (Chain ID: `11155111` / `0xaa36a7`)
+- **Contract Address**: [`0x55fe6BEC3C241840FF337E5CB323671Fe7265cEF`](https://sepolia.etherscan.io/address/0x55fe6BEC3C241840FF337E5CB323671Fe7265cEF)
+- **Deployment Transaction**: [`0xea2716a0e07dc4b3e99b2989deedffc2813d3c896b0e3a37b23d1d5ecdb8a969`](https://sepolia.etherscan.io/tx/0xea2716a0e07dc4b3e99b2989deedffc2813d3c896b0e3a37b23d1d5ecdb8a969)
 - **Solidity Version**: `^0.8.28`
 
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
+/**
+ * @title ProofMint
+ * @dev Decentralized digital media provenance and copyright notarization protocol.
+ * Developed by VIT Chennai students under the academic guidance of Prof. Malathi G.
+ */
 contract ProofMint {
-    // Mapping of SHA-256 hash string => boolean existence
-    mapping(string => bool) public hashes;
-
-    // Registers a new cryptographic image hash on-chain
-    function storeHash(string memory hash) public {
-        require(!hashes[hash], "Hash already exists");
-        hashes[hash] = true;
+    struct ProofRecord {
+        address registrant;     // Initial minter/creator wallet
+        address currentOwner;   // Current ownership / copyright holder
+        uint256 timestamp;      // Consensus block timestamp (Proof of Existence)
+        uint256 blockNumber;    // Ethereum block height
+        bool exists;            // Existence flag
     }
 
-    // Public view function to verify whether a hash is registered
+    // Mapping from SHA-256 hash string to ProofRecord
+    mapping(string => ProofRecord) private _proofs;
+
+    // Total counter of registered proofs
+    uint256 public totalProofs;
+
+    // Events for Etherscan log indexing & off-chain verification
+    event ProofRegistered(
+        string indexed hashIndex,
+        string hash,
+        address indexed registrant,
+        uint256 timestamp,
+        uint256 blockNumber
+    );
+
+    event ProofTransferred(
+        string indexed hashIndex,
+        string hash,
+        address indexed previousOwner,
+        address indexed newOwner,
+        uint256 timestamp
+    );
+
+    /**
+     * @notice Registers a new image proof with immutable block timestamping.
+     * @param hash SHA-256 cryptographic digest of the image.
+     */
+    function storeHash(string memory hash) public returns (bool) {
+        require(bytes(hash).length > 0, "Invalid hash: empty string");
+        require(!_proofs[hash].exists, "Hash already exists");
+
+        _proofs[hash] = ProofRecord({
+            registrant: msg.sender,
+            currentOwner: msg.sender,
+            timestamp: block.timestamp,
+            blockNumber: block.number,
+            exists: true
+        });
+
+        totalProofs += 1;
+
+        emit ProofRegistered(hash, hash, msg.sender, block.timestamp, block.number);
+        return true;
+    }
+
+    /**
+     * @notice Simple boolean verification (backwards compatible).
+     * @param hash SHA-256 digest to verify.
+     */
     function verifyHash(string memory hash) public view returns (bool) {
-        return hashes[hash];
+        return _proofs[hash].exists;
+    }
+
+    /**
+     * @notice Direct getter for legacy hashes mapping compatibility.
+     * @param hash SHA-256 digest.
+     */
+    function hashes(string memory hash) public view returns (bool) {
+        return _proofs[hash].exists;
+    }
+
+    /**
+     * @notice Retrieves full on-chain provenance and timestamp details.
+     * @param hash SHA-256 digest to query.
+     */
+    function getProof(string memory hash)
+        external
+        view
+        returns (
+            address registrant,
+            address currentOwner,
+            uint256 timestamp,
+            uint256 blockNumber,
+            bool exists
+        )
+    {
+        ProofRecord memory record = _proofs[hash];
+        require(record.exists, "Proof does not exist");
+        return (
+            record.registrant,
+            record.currentOwner,
+            record.timestamp,
+            record.blockNumber,
+            record.exists
+        );
+    }
+
+    /**
+     * @notice Transfers ownership of an image copyright proof to a new address.
+     * @param hash SHA-256 digest of the image.
+     * @param newOwner Address of the new owner.
+     */
+    function transferProof(string memory hash, address newOwner) external returns (bool) {
+        require(_proofs[hash].exists, "Proof does not exist");
+        require(_proofs[hash].currentOwner == msg.sender, "Only current owner can transfer proof");
+        require(newOwner != address(0), "Cannot transfer to zero address");
+        require(newOwner != msg.sender, "Cannot transfer to self");
+
+        address prevOwner = _proofs[hash].currentOwner;
+        _proofs[hash].currentOwner = newOwner;
+
+        emit ProofTransferred(hash, hash, prevOwner, newOwner, block.timestamp);
+        return true;
     }
 }
 ```
 
 ---
 
-## 🛠️ Technology Stack
+## Academic Review & Viva Defense Guide
 
-| Layer | Technologies |
-| :--- | :--- |
-| **Frontend** | React 19, TypeScript, Vite, Tailwind CSS v4, Plus Jakarta Sans, JetBrains Mono |
-| **Backend** | Node.js, Express.js, Multer (Memory Storage), Mongoose, Axios, Streamifier, CORS |
-| **Blockchain** | Solidity (`^0.8.28`), Hardhat 3, Ethers.js v6, Ethereum Sepolia Testnet, Alchemy RPC |
-| **Cloud & Media** | Cloudinary CDN (Asset Delivery), MongoDB Atlas (Document Database) |
-| **AI & Auth** | Hugging Face Inference API, Google Identity Services (OAuth 2.0), JWT |
-| **Deployment** | Vercel (Frontend SPA), Render (Express Backend API) |
+This section outlines technical questions and evaluation points frequently raised during capstone and project reviews:
+
+### 1. Why store the SHA-256 hash instead of the raw image on Ethereum?
+- **Gas Efficiency**: Ethereum SSTORE operations cost 20,000 gas per 32-byte storage slot. Storing a 5 MB image directly on-chain would cost tens of thousands of dollars in gas fees and exceed block gas limits (`30,000,000 gas`).
+- **Mathematical Collateral**: Storing a 256-bit SHA-256 digest provides mathematical collision resistance ($2^{128}$ operations). If even 1 bit of the image changes, the hash changes completely. The digest proves existence with minimal on-chain state footprint.
+
+### 2. Why provide Dual Registration Modes (Gasless vs. MetaMask)?
+- **Overcoming the Web3 Adoption Hurdle**: Traditional crypto onboarding requires installing extensions, creating seed phrases, and acquiring testnet faucet ETH. ProofMint's Gasless Relayer sponsors transactions so mainstream Web2 users register media instantly.
+- **Self-Sovereign Integrity**: Advanced users and decentralized organizations can sign with their personal wallet (`window.ethereum`), guaranteeing that their public key is explicitly recorded as `msg.sender` on the Sepolia ledger.
+
+### 3. How does ProofMint prevent double-registration and fraud?
+- In Solidity, `storeHash` enforces `require(!_proofs[hash].exists, "Hash already exists")`. Once a hash is inscribed, any subsequent registration attempt reverts on-chain.
+- The earliest timestamp (`block.timestamp`) permanently establishes legal precedence of origin.
+
+### 4. How does Ownership Transfer protect against unauthorized theft?
+- `transferProof` enforces `require(_proofs[hash].currentOwner == msg.sender)`. Only the private key holder who currently owns the proof can execute a transfer.
+- The contract maintains `registrant` permanently to identify the original author, while updating `currentOwner` to reflect the active licensee or asset holder.
 
 ---
 
-## 📡 API Reference
+## Technology Stack
+
+| Layer | Technologies & Tools |
+| :--- | :--- |
+| **Frontend Client** | React 19, TypeScript, Vite, Tailwind CSS v4, Ethers.js v6 (Browser Provider), QRCode, Lucide Icons |
+| **Backend API** | Node.js, Express.js, Multer, Mongoose (MongoDB ODM), Ethers.js v6 (Alchemy JSON-RPC), Streamifier |
+| **Smart Contract** | Solidity `^0.8.28`, Hardhat, Ethereum Sepolia Testnet, Alchemy JSON-RPC Provider |
+| **Media & Storage** | Cloudinary CDN (High-Resolution Media Delivery), MongoDB Atlas (Relational & Metadata Records) |
+| **Identity & Security** | MetaMask Web3 Wallet, Google OAuth 2.0 / Identity Services, JWT Bearer Tokens |
+| **Hosting & CI/CD** | Vercel (Frontend Client), Render (Express API Backend) |
+
+---
+
+## REST API Reference
 
 ### Base URLs
 - **Production API**: `https://proofmint-pwcy.onrender.com`
 - **Local API**: `http://localhost:3001`
 
-### Endpoints
+### Endpoints Overview
 
 | Method | Endpoint | Auth Required | Description |
 | :--- | :--- | :---: | :--- |
-| `POST` | `/api/images/verify` | ❌ No | **Public verification**: Uploads an image, computes its SHA-256 hash, and queries Ethereum Sepolia. |
-| `POST` | `/api/images` | ✅ Yes | **Register image**: Computes hash, uploads to Cloudinary, executes `storeHash` on Sepolia, and saves metadata. |
-| `GET` | `/api/images` | ✅ Yes | Returns all registered proofs owned by the authenticated user. |
-| `POST` | `/api/auth/register` | ❌ No | Create a new user account (`username`, `email`, `password`). |
-| `POST` | `/api/auth/login` | ❌ No | Login with username/email and password. Returns JWT token. |
-| `POST` | `/api/auth/google` | ❌ No | Authenticate via Google OAuth Credential or ID Token. |
-| `GET` | `/api/auth/me` | ✅ Yes | Fetch authenticated user profile and stats. |
+| `POST` | `/api/images/verify` | No | **Public Verification**: Uploads an image, computes its SHA-256 hash, and verifies consensus existence on Sepolia. |
+| `POST` | `/api/images` | Yes | **Register Image**: Supports both Gasless Relayer mode and MetaMask Self-Sovereign mode (via optional `txHash` and `signerAddress`). |
+| `GET` | `/api/images` | Yes | Returns all registered proofs owned by the authenticated user. |
+| `POST` | `/api/images/:id/transfer` | Yes | **Transfer Ownership**: Executes on-chain `transferProof(hash, newOwner)` on Ethereum Sepolia and updates ownership records. |
+| `POST` | `/api/auth/register` | No | Create a new user account (`username`, `email`, `password`). |
+| `POST` | `/api/auth/login` | No | Login with username/email and password. Returns JWT token. |
+| `POST` | `/api/auth/google` | No | Authenticate via Google OAuth Credential / ID Token. |
+| `GET` | `/api/auth/me` | Yes | Fetch authenticated user profile and stats. |
 
-#### Example: Public Verification Response (`POST /api/images/verify`)
+#### Ownership Transfer API Example (`POST /api/images/:id/transfer`)
+
+**Request Payload:**
+```json
+{
+  "newOwnerAddress": "0x71C...384E"
+}
+```
+
+**Response:**
 ```json
 {
   "success": true,
-  "authentic": true,
-  "status": "verified",
-  "title": "✓ Verified",
-  "message": "This image matches a registered ProofMint proof.",
-  "imageHash": "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069",
-  "proofDetails": {
-    "blockchain": "Ethereum Sepolia Testnet",
-    "txHash": "0x4a7f23c91d74659b8543f07a755d5b78b024483a92b23a73c1d932e6fb154942",
-    "uploadedAt": "2026-03-12T14:20:00.000Z",
-    "fileName": "original_artwork.png",
-    "fileSize": 2048592,
-    "imageUrl": "https://res.cloudinary.com/..."
-  },
-  "note": "Cryptographic proof confirmed on-chain."
+  "message": "Image proof ownership transferred successfully on-chain.",
+  "transferTxHash": "0x89ab...d4ef",
+  "image": {
+    "hash": "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069",
+    "transferredTo": "0x71C...384E",
+    "transferredAt": "2026-10-12T22:15:00.000Z",
+    "transferTxHash": "0x89ab...d4ef"
+  }
 }
 ```
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 ProofMint/
-├── frontend/                     # React 19 + TypeScript + Vite Client
-│   ├── public/                   # Favicon and static assets
+├── frontend/                     # React 19 + TypeScript + Vite Web Client
+│   ├── public/                   # Static icons & branding assets
 │   ├── src/
-│   │   ├── components/           # Reusable UI components & SVG logos
-│   │   ├── context/              # Authentication context (Google + JWT)
-│   │   ├── services/             # API clients & backend connectors
-│   │   ├── App.tsx               # Primary page routes & dashboard views
-│   │   ├── main.tsx              # Application entry point
-│   │   └── index.css             # Tailwind v4 theme & keyframe animations
+│   │   ├── components/
+│   │   │   ├── common/           # Holographic certificate, progress bars, transfer modal
+│   │   │   ├── icons/            # Professional SVG illustrations (Certificate, Transfer, Wallet, Zap)
+│   │   │   ├── image/            # ImageCard grid with tactile buttons & badges
+│   │   │   └── layout/           # Navbar, Footer
+│   │   ├── context/              # AuthContext (Google OAuth & JWT)
+│   │   ├── pages/                # Home, Verify, Register (Dual Mode), Dashboard, Profile, About
+│   │   ├── services/             # API client, Web3 MetaMask provider & SHA-256 hasher
+│   │   └── utils/                # Date and file size formatters, downloadAsset utility
 │   ├── package.json
 │   └── vite.config.ts
 │
 ├── backend/                      # Node.js + Express REST API
 │   ├── src/
-│   │   ├── config/               # Cloudinary, Multer, and MongoDB setup
-│   │   ├── contracts/            # Smart contract ABI artifacts
-│   │   ├── controllers/          # Auth, Image registration & verification
+│   │   ├── config/               # Cloudinary, Multer, and MongoDB connections
+│   │   ├── contracts/            # Compiled ProofMint ABI definitions
+│   │   ├── controllers/          # Image registration, on-chain transfer, verification, auth
 │   │   ├── middlewares/          # JWT bearer token verification
 │   │   ├── models/               # Mongoose schemas (User, Image)
 │   │   ├── routes/               # API route definitions
-│   │   ├── services/             # Sepolia blockchain service (ethers.js)
+│   │   ├── services/             # Blockchain ethers.js service (storeHash, transferProof, getProof)
 │   │   └── server.js             # HTTP server entrypoint
 │   └── package.json
 │
-├── blockchain/                   # Hardhat 3 Ethereum Workspace
+├── blockchain/                   # Hardhat Ethereum Workspace
 │   ├── contracts/
-│   │   └── ProofMint.sol         # Solidity smart contract
-│   ├── ignition/                 # Deployment modules
-│   ├── hardhat.config.ts         # Hardhat & Sepolia network configuration
+│   │   └── ProofMint.sol         # Solidity smart contract (ProofRecord, transferProof, storeHash)
+│   ├── scripts/                  # Sepolia deployment and verification scripts
+│   ├── hardhat.config.ts         # Hardhat compiler & Sepolia network configuration
 │   └── package.json
 │
-├── screenshots/                  # High-resolution frontend previews
-└── README.md                     # Project documentation
+└── README.md                     # Comprehensive project documentation
 ```
 
 ---
 
-## 🚀 Getting Started
+## Quickstart & Local Setup Guide
 
-### Prerequisites
-- [Node.js](https://nodejs.org/) (v20.x or higher recommended)
-- [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/)
-- [Git](https://git-scm.com/)
-- [MetaMask](https://metamask.io/) or an Ethereum Sepolia RPC URL (Alchemy / Infura)
-- Free accounts for [MongoDB Atlas](https://www.mongodb.com/atlas), [Cloudinary](https://cloudinary.com/), and [Hugging Face](https://huggingface.co/)
-
----
-
-### 1. Clone the Repository
+### 1. Clone Repository
 ```bash
 git clone https://github.com/arpitraj1720/ProofMint.git
 cd ProofMint
 ```
-
----
 
 ### 2. Backend Setup
 ```bash
@@ -307,7 +415,7 @@ cd backend
 npm install
 ```
 
-Create a `.env` file in the `backend/` directory:
+Create `backend/.env`:
 ```env
 PORT=3001
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/proofmint
@@ -317,100 +425,45 @@ CLOUDINARY_API_KEY=your_cloudinary_key
 CLOUDINARY_API_SECRET=your_cloudinary_secret
 HUGGINGFACE_API_KEY=your_huggingface_key
 BLOCKCHAIN_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/your_alchemy_key
-PROOFMINT_CONTRACT_ADDRESS=0x3E73D50b6591Dd8626eE32ebC367bBDe03E88685
+PROOFMINT_CONTRACT_ADDRESS=0x55fe6BEC3C241840FF337E5CB323671Fe7265cEF
 BLOCKCHAIN_PRIVATE_KEY=your_sepolia_wallet_private_key
 FRONTEND_URL=http://localhost:5173
 GOOGLE_CLIENT_ID=your_google_oauth_client_id
 ```
 
-Start the backend development server:
+Run backend server:
 ```bash
 npm run dev
-# Backend runs at http://localhost:3001
+# Server running on http://localhost:3001
 ```
 
----
-
-### 3. Smart Contract Deployment (Optional)
-If you want to deploy a fresh instance of the contract to Sepolia:
-```bash
-cd ../blockchain
-npm install
-npx hardhat compile
-npx hardhat ignition deploy --network sepolia ignition/modules/ProofMint.ts
-```
-
----
-
-### 4. Frontend Setup
+### 3. Frontend Setup
 ```bash
 cd ../frontend
 npm install
 ```
 
-Create a `.env` file in the `frontend/` directory:
+Create `frontend/.env`:
 ```env
 VITE_API_BASE_URL=http://localhost:3001
 VITE_GOOGLE_CLIENT_ID=your_google_oauth_client_id
 ```
 
-Launch the frontend client:
+Run frontend client:
 ```bash
 npm run dev
-# Frontend runs at http://localhost:5173
+# Client running on http://localhost:5173
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser to experience ProofMint.
-
 ---
 
-## ⚙️ Environment Variables Reference
+## License
 
-### Backend (`backend/.env`)
-| Variable | Description |
-| :--- | :--- |
-| `PORT` | Local server port (Default: `3001`) |
-| `MONGODB_URI` | MongoDB Atlas connection string |
-| `JWT_SECRET` | Secret key for signing and verifying JWT tokens |
-| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud identifier |
-| `CLOUDINARY_API_KEY` | Cloudinary API key |
-| `CLOUDINARY_API_SECRET` | Cloudinary API secret |
-| `HUGGINGFACE_API_KEY` | Hugging Face inference token for AI media detection |
-| `BLOCKCHAIN_RPC_URL` | Sepolia testnet RPC URL (e.g. Alchemy or Infura) |
-| `PROOFMINT_CONTRACT_ADDRESS` | Deployed address of `ProofMint.sol` |
-| `BLOCKCHAIN_PRIVATE_KEY` | Relayer private key for sponsoring gasless mints |
-| `FRONTEND_URL` | Allowed CORS origin (e.g. `http://localhost:5173` or Vercel URL) |
-| `GOOGLE_CLIENT_ID` | Google OAuth 2.0 Web Client ID |
-
-### Frontend (`frontend/.env`)
-| Variable | Description |
-| :--- | :--- |
-| `VITE_API_BASE_URL` | Backend server URL (`http://localhost:3001` or Render URL) |
-| `VITE_GOOGLE_CLIENT_ID` | Google OAuth Client ID for One-Tap / Identity Services |
-
----
-
-## 🗺️ Roadmap
-
-- [x] Client & server-side SHA-256 cryptographic hashing
-- [x] Solidity smart contract deployment to Ethereum Sepolia
-- [x] Public verification interface (Zero-login verification)
-- [x] Cloudinary CDN image offloading
-- [x] Google OAuth 2.0 & JWT authentication
-- [x] AI-generated image analysis integration
-- [ ] IPFS / Arweave decentralized image hosting
-- [ ] Layer-2 deployment (Polygon, Arbitrum, Base) for lower gas fees
-- [ ] C2PA Content Credentials metadata compliance
-- [ ] Imperceptible cryptographic watermark stamping on downloaded media
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
+This project is open-sourced under the [MIT License](LICENSE).
 
 ---
 
 <p align="center">
-  Built with ❤️ for digital trust, creator provenance, and verifiable truth on the blockchain.
+  Developed by <strong>Arpit Raj</strong> and <strong>Aaron Mathew</strong> under the guidance of <strong>Dr. Malathi G</strong> at <strong>VIT Chennai</strong>.<br />
+  Secured by Ethereum Sepolia Blockchain Consensus.
 </p>

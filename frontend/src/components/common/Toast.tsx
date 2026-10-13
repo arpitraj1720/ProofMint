@@ -15,17 +15,15 @@ export function Toast({ msg, onClose }: ToastProps) {
   return (
     <div className="fixed bottom-6 right-6 z-50 animate-fade-in-up">
       <div
-        className="flex items-center gap-3 px-5 py-4 rounded-md shadow-2xl"
-        style={{ backgroundColor: "#374785", border: "1px solid rgba(168,208,230,0.25)" }}
+        className="flex items-center gap-3 px-5 py-3.5 rounded-md shadow-2xl bg-[#10B981] text-white"
       >
-        <CheckCircleIcon size={20} color="#F8E9A1" />
-        <p className="text-sm font-medium text-white">{msg}</p>
+        <CheckCircleIcon size={20} color="#FFFFFF" />
+        <p className="text-sm font-semibold text-white">{msg}</p>
         <button
           onClick={onClose}
-          className="ml-2 opacity-60 hover:opacity-100 cursor-pointer"
-          style={{ color: "#A8D0E6" }}
+          className="ml-3 text-white/80 hover:text-white cursor-pointer text-base font-bold transition-colors"
         >
-          ✕
+          ×
         </button>
       </div>
     </div>

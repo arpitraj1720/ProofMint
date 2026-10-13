@@ -51,7 +51,28 @@ const imageSchema = new mongoose.Schema({
   txHash: {
     type: String,
   },
-  
+
+  transferredTo: {
+    type: String,
+  },
+
+  transferredAt: {
+    type: Date,
+  },
+
+  transferTxHash: {
+    type: String,
+  },
+
+  registrationMode: {
+    type: String,
+    enum: ["gasless", "self_sovereign"],
+    default: "gasless",
+  },
+
+  signerAddress: {
+    type: String,
+  },
 });
 
 const Image = mongoose.model("Image", imageSchema);

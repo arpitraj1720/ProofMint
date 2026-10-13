@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 const Image = require("../models/Image");
-const { verifyHashOnBlockchain } = require("../services/blockchainService");
+const { getProofOnBlockchain } = require("../services/blockchainService");
 
 const verifyImage = async (req, res) => {
   try {
@@ -16,15 +16,21 @@ const verifyImage = async (req, res) => {
       .update(req.file.buffer)
       .digest("hex");
 
-    // Verify on Ethereum Sepolia blockchain
-    const existsOnChain = await verifyHashOnBlockchain(hash);
+    // Verify and retrieve rich on-chain provenance from Ethereum Sepolia smart contract
+    const onChainProof = await getProofOnBlockchain(hash);
+    const existsOnChain = Boolean(onChainProof?.exists);
 
-    // Look up in MongoDB for metadata (without exposing owner identity/email)
+    // Look up in MongoDB for media details
     const imageRecord = await Image.findOne({ hash }).select(
       "fileName fileType fileSize uploadedAt txHash hash imageUrl"
     );
 
-    const isVerified = existsOnChain || !!imageRecord;
+    const isVerified = existsOnChain || Boolean(imageRecord);
+
+    const uploadedAt =
+      onChainProof?.timestamp && onChainProof.timestamp > 0
+        ? new Date(onChainProof.timestamp * 1000).toISOString()
+        : imageRecord?.uploadedAt || null;
 
     return res.status(200).json({
       success: true,
@@ -39,14 +45,17 @@ const verifyImage = async (req, res) => {
         ? {
             blockchain: "Ethereum Sepolia Testnet",
             txHash: imageRecord?.txHash || null,
-            uploadedAt: imageRecord?.uploadedAt || null,
+            uploadedAt,
+            blockNumber: onChainProof?.blockNumber || null,
+            registrant: onChainProof?.registrant || null,
+            currentOwner: onChainProof?.currentOwner || null,
             fileName: imageRecord?.fileName || req.file.originalname,
             fileSize: imageRecord?.fileSize || req.file.size,
             imageUrl: imageRecord?.imageUrl || null,
           }
         : null,
       note: isVerified
-        ? "Cryptographic proof confirmed on-chain."
+        ? "Cryptographic proof confirmed on-chain with immutable block timestamp."
         : "A failed match means ProofMint has no matching registered proof; it does not automatically prove that the image is unauthentic or fake.",
     });
   } catch (error) {

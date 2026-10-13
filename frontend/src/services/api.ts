@@ -24,6 +24,11 @@ export interface ImageRecord {
   fileSize?: number;
   uploadedAt?: string;
   txHash?: string;
+  transferredTo?: string;
+  transferredAt?: string;
+  transferTxHash?: string;
+  registrationMode?: "gasless" | "self_sovereign";
+  signerAddress?: string;
   aiLabel?: string;
   aiConfidence?: number;
 }
@@ -33,6 +38,8 @@ export interface RegisterResponse {
   message: string;
   imageHash?: string;
   txHash?: string;
+  registrationMode?: "gasless" | "self_sovereign";
+  signerAddress?: string;
   image?: ImageRecord;
 }
 
@@ -52,6 +59,13 @@ export interface VerifyResponse {
     imageUrl?: string | null;
   } | null;
   note?: string;
+}
+
+export interface TransferResponse {
+  success: boolean;
+  message: string;
+  transferTxHash: string;
+  image: ImageRecord;
 }
 
 export class ApiError extends Error {
@@ -274,7 +288,11 @@ export async function getMe(): Promise<{ success: boolean; user: User }> {
  * Protected Endpoint: POST /api/images
  * Content-Type: multipart/form-data
  */
-export async function registerImage(file: File): Promise<RegisterResponse> {
+export async function registerImage(
+  file: File,
+  clientTxHash?: string,
+  signerAddress?: string
+): Promise<RegisterResponse> {
   const token = getAuthToken();
   if (!token) {
     throw new ApiError("Please log in to register images.", 401);
@@ -282,6 +300,12 @@ export async function registerImage(file: File): Promise<RegisterResponse> {
 
   const formData = new FormData();
   formData.append("image", file);
+  if (clientTxHash) {
+    formData.append("txHash", clientTxHash);
+  }
+  if (signerAddress) {
+    formData.append("signerAddress", signerAddress);
+  }
 
   try {
     const res = await fetch(`${API_BASE_URL}/api/images`, {
@@ -382,6 +406,46 @@ export async function getImages(): Promise<ImageRecord[]> {
     }
 
     return [];
+  } catch (err: unknown) {
+    if (err instanceof ApiError) {
+      throw err;
+    }
+    throw new ApiError(getErrorMessage(err), 0);
+  }
+}
+
+/**
+ * Transfer on-chain ownership of an individual image proof to a new Ethereum address.
+ * Protected Endpoint: POST /api/images/:id/transfer
+ */
+export async function transferImage(
+  id: string,
+  newOwnerAddress: string
+): Promise<TransferResponse> {
+  const token = getAuthToken();
+  if (!token) {
+    throw new ApiError("Please log in to transfer proof ownership.", 401);
+  }
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/images/${id}/transfer`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ newOwnerAddress }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      const message =
+        data.message || `Transfer failed with status ${res.status}`;
+      throw new ApiError(message, res.status);
+    }
+
+    return data as TransferResponse;
   } catch (err: unknown) {
     if (err instanceof ApiError) {
       throw err;

@@ -87,10 +87,10 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
                 </button>
                 <button
                   onClick={logout}
-                  className="px-3 py-2 text-xs font-semibold rounded-md transition-colors cursor-pointer"
+                  className="px-3.5 py-1.5 text-xs font-bold rounded-md transition-all duration-200 hover:bg-red-600 hover:border-red-600 active:scale-95 cursor-pointer shadow-sm border text-white"
                   style={{
-                    color: "rgba(247,108,108,0.9)",
-                    backgroundColor: "rgba(247,108,108,0.1)",
+                    backgroundColor: "#374785",
+                    borderColor: "rgba(168,208,230,0.3)",
                   }}
                   title="Log out"
                 >
@@ -183,8 +183,11 @@ export function Navbar({ page, setPage, onStartRegister }: NavbarProps) {
                   logout();
                   setMenuOpen(false);
                 }}
-                className="px-4 py-3 text-sm font-semibold rounded-md text-center"
-                style={{ color: "#F76C6C", backgroundColor: "rgba(247,108,108,0.1)" }}
+                className="px-4 py-3 text-sm font-bold rounded-md text-center text-white border transition-all hover:bg-red-600 hover:border-red-600 cursor-pointer shadow-sm"
+                style={{
+                  backgroundColor: "#374785",
+                  borderColor: "rgba(168,208,230,0.3)",
+                }}
               >
                 Log Out
               </button>

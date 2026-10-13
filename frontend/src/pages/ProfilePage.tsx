@@ -168,11 +168,10 @@ export function ProfilePage({ setPage }: ProfilePageProps) {
             </button>
             <button
               onClick={handleLogout}
-              className="flex-1 py-3.5 rounded-md font-bold text-sm transition-all hover:bg-white/10 active:scale-95 cursor-pointer border"
+              className="flex-1 py-3.5 rounded-md font-bold text-sm transition-all hover:bg-red-600 hover:border-red-600 active:scale-95 cursor-pointer border shadow-md text-white"
               style={{
-                color: "#F76C6C",
-                borderColor: "rgba(247,108,108,0.3)",
-                backgroundColor: "rgba(247,108,108,0.06)",
+                backgroundColor: "#24305E",
+                borderColor: "rgba(168,208,230,0.3)",
               }}
             >
               Log Out

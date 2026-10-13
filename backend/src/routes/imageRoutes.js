@@ -6,6 +6,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const {
   createImage,
   getImages,
+  transferImageOwnership,
 } = require("../controllers/imageController");
 
 const { verifyImage } = require("../controllers/verifyController");
@@ -18,5 +19,8 @@ router.post("/", authMiddleware, upload.single("image"), createImage);
 
 // Protected image listing (Authentication required - returns only current user's images)
 router.get("/", authMiddleware, getImages);
+
+// Protected ownership transfer (Authentication required)
+router.post("/:id/transfer", authMiddleware, transferImageOwnership);
 
 module.exports = router;
